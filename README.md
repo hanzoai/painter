@@ -1,294 +1,189 @@
-# Content Aware Inpainting V2 - ComfyUI Workflow
+# Hanzo Painter
 
-A powerful ComfyUI workflow for removing watermarks from videos using DiffuEraser technology. This workflow can be used for removing any type of watermark from video content while maintaining video quality and temporal consistency.
+AI-powered content-aware inpainting for videos and images. Intelligently remove and reconstruct content using ComfyUI, DiffuEraser, and SAM2.
 
-![ComfyUI Workflow Screenshot](workflow-screenshot.png)
-*ComfyUI workflow interface showing the complete watermark removal pipeline*
+Part of the [Hanzo AI](https://hanzo.ai) ecosystem.
 
-## 🎯 Features
+![Workflow](workflow-screenshot.png)
 
-- **Universal Watermark Removal**: Works with any type of watermark (stock footage, user-generated content, AI-generated videos, etc.)
-- **Advanced Segmentation**: Optional SAM 2 integration for precise watermark detection and mask creation
-- **Temporal Consistency**: Maintains smooth video flow across frames
-- **Multiple Input Support**: Handles both video files and static images
-- **Smart Resizing**: Automatically scales content while preserving aspect ratios
-- **Batch Processing**: Can process multiple frames efficiently
-- **Audio Preservation**: Maintains original audio track in output videos
-- **Flexible Masking**: Choose between automatic detection or manual SAM 2 segmentation
-- **Adaptable Workflow**: Easy to modify for different watermark types and video sources
+## Features
 
-## 🛠️ Models Used
+- 🎨 **Content-Aware Inpainting** - AI reconstructs removed areas intelligently
+- 🪄 **Smart Removal** - Remove watermarks, objects, blemishes, or any unwanted elements
+- 🧠 **Context Understanding** - Analyzes surroundings to generate realistic fill content
+- 🤖 **SAM2 Integration** - Click-to-segment any object with precision (optional)
+- 🎬 **Temporal Consistency** - Smooth, flicker-free video output across frames
+- 🔊 **Audio Preservation** - Maintains original audio track
+- ⚡ **GPU-Accelerated** - Fast processing with CUDA support
+- 🍎 **MLX Support** - Native Apple Silicon acceleration (70% faster model loading, 35% faster inference)
 
-### Primary Models
-- **DiffuEraser Model**: `pcm_sd15_smallcfg_2step_converted.safetensors`
-- **Base Model**: `realisticVisionV51_v51VAE.safetensors`
-- **Segmentation Model**: `briaai/RMBG-2.0` (for background removal)
+## Quick Start
 
-### Advanced Segmentation (Optional)
-- **SAM 2 (Segment Anything Model 2)**: For precise watermark detection and mask creation
-  - **Model**: `sam2_hiera_large.pt` or `sam2_hiera_base_plus.pt`
-  - **Purpose**: Advanced object segmentation for complex watermark shapes
-  - **Benefits**: More accurate mask generation for irregular watermarks
+```bash
+# Complete setup
+make all
 
-### Required Custom Nodes
-- **ComfyUI_DiffuEraser**: Core watermark removal functionality
-- **ComfyUI-VideoHelperSuite**: Video processing and manipulation
-- **ComfyUI-Easy-Use**: Utility nodes for workflow control
-- **ComfyUI-KJNodes**: Image resizing and processing utilities
-- **ComfyUI-LayerStyle**: Advanced image scaling capabilities
-- **ComfyUI-SAM2** (Optional): SAM 2 integration for advanced segmentation
-
-## 📋 Prerequisites
-
-- ComfyUI installed and running
-- Python 3.8+ 
-- CUDA-compatible GPU (recommended)
-- Sufficient VRAM (8GB+ recommended for video processing)
-
-## 🚀 Installation
-
-### Method 1: RunPod Setup
-
-1. **Create RunPod Instance**:
-   - Choose a GPU instance (RTX 4090 or A100 recommended)
-   - Select Ubuntu 20.04 or 22.04
-   - Ensure at least 24GB VRAM for optimal performance
-
-2. **Install ComfyUI**:
-   ```bash
-   git clone https://github.com/comfyanonymous/ComfyUI.git
-   cd ComfyUI
-   pip install -r requirements.txt
-   ```
-
-3. **Install Required Custom Nodes**:
-   ```bash
-   # Navigate to ComfyUI custom_nodes directory
-   cd custom_nodes
-   
-   # Install DiffuEraser
-   git clone https://github.com/ComfyUI/ComfyUI_DiffuEraser.git
-   
-   # Install VideoHelperSuite
-   git clone https://github.com/Kosinkadink/ComfyUI-VideoHelperSuite.git
-   
-   # Install Easy-Use nodes
-   git clone https://github.com/yolain/ComfyUI-Easy-Use.git
-   
-   # Install KJNodes
-   git clone https://github.com/kijai/Comfyui-KJNodes.git
-   
-   # Install LayerStyle
-   git clone https://github.com/chflame163/ComfyUI_LayerStyle.git
-   
-   # Install SAM2 (Optional - for advanced segmentation)
-   git clone https://github.com/cubiq/ComfyUI-SAM2.git
-   ```
-
-4. **Download Required Models**:
-   ```bash
-   # Create models directory structure
-   mkdir -p models/diffusers
-   mkdir -p models/checkpoints
-   mkdir -p models/vae
-   
-   # Download DiffuEraser model
-   wget -O models/diffusers/pcm_sd15_smallcfg_2step_converted.safetensors [MODEL_URL]
-   
-   # Download base model
-   wget -O models/checkpoints/realisticVisionV51_v51VAE.safetensors [MODEL_URL]
-   
-   # Download SAM2 models (Optional)
-   mkdir -p models/sam2
-   wget -O models/sam2/sam2_hiera_large.pt https://dl.fbaipublicfiles.com/segment_anything_2/072824/sam2_hiera_large.pt
-   wget -O models/sam2/sam2_hiera_base_plus.pt https://dl.fbaipublicfiles.com/segment_anything_2/072824/sam2_hiera_base_plus.pt
-   ```
-
-5. **Start ComfyUI**:
-   ```bash
-   cd ComfyUI
-   python main.py --listen 0.0.0.0 --port 8188
-   ```
-
-### Method 2: Local Installation
-
-1. **Clone ComfyUI**:
-   ```bash
-   git clone https://github.com/comfyanonymous/ComfyUI.git
-   cd ComfyUI
-   pip install -r requirements.txt
-   ```
-
-2. **Install Custom Nodes** (same as RunPod method)
-
-3. **Download Models** (same as RunPod method)
-
-4. **Run ComfyUI**:
-   ```bash
-   python main.py
-   ```
-
-## 📖 Usage Instructions
-
-### Basic Usage
-
-1. **Load the Workflow**:
-   - Open ComfyUI in your browser
-   - Load the `inpainting-workflow.json` workflow file
-
-2. **Input Your Video**:
-   - Place your video file in the `ComfyUI/input` directory
-   - Update the video filename in the `VHS_LoadVideo` node
-
-3. **Configure Settings**:
-   - **Video Length**: Set to desired number of frames (default: 300)
-   - **Frame Rate**: Adjust based on your video (default: 8 FPS)
-   - **Seed**: Use a fixed seed for reproducible results
-   - **Guidance Scale**: Higher values for stronger watermark removal (default: 10)
-
-4. **Run the Workflow**:
-   - Click "Queue Prompt" to start processing
-   - Monitor progress in the ComfyUI interface
-
-### Advanced Configuration
-
-#### DiffuEraser Settings
-- **num_inference_steps**: Number of denoising steps (default: 15)
-- **guidance_scale**: Strength of watermark removal (default: 10)
-- **mask_dilation_iter**: Mask expansion iterations (default: 4)
-- **ref_stride**: Reference frame stride (default: 10)
-- **neighbor_length**: Neighbor frame length (default: 10)
-- **subvideo_length**: Sub-video processing length (default: 50)
-
-#### SAM 2 Integration (Optional)
-- **Model Selection**: Choose between `sam2_hiera_large.pt` (more accurate) or `sam2_hiera_base_plus.pt` (faster)
-- **Point Prompts**: Click on watermark areas to guide segmentation
-- **Box Prompts**: Draw bounding boxes around watermarks for better detection
-- **Mask Refinement**: Use SAM 2's iterative refinement for complex watermarks
-- **Multi-Object Detection**: Segment multiple watermarks simultaneously
-
-#### Video Processing Settings
-- **frame_load_cap**: Maximum frames to process (default: 300)
-- **custom_width/height**: Force specific dimensions
-- **format**: Output format (AnimateDiff recommended)
-
-## ⚙️ Workflow Components
-
-### Input Processing
-- **VHS_LoadVideo**: Loads and processes input video
-- **VHS_VideoInfo**: Extracts video metadata (FPS, dimensions, etc.)
-- **LoadImage**: Loads static images for comparison
-
-### Image Processing
-- **LayerUtility: ImageScaleByAspectRatio V2**: Smart image scaling
-- **ImageResizeKJv2**: Precise image resizing
-- **easy ifElse**: Conditional processing logic
-
-### Watermark Removal
-- **DiffuEraserLoader**: Loads the watermark removal model
-- **DiffuEraserSampler**: Core watermark removal processing
-- **SAM2 Nodes** (Optional): Advanced segmentation for precise mask creation
-  - **SAM2Loader**: Loads SAM 2 model
-  - **SAM2Predictor**: Generates segmentation masks
-  - **SAM2MaskProcessor**: Refines and processes masks
-
-### Output Generation
-- **RepeatImageBatch**: Handles batch processing
-- **VHS_VideoCombine**: Combines processed frames into final video
-- **easy cleanGpuUsed**: Memory cleanup
-
-## 🔧 Troubleshooting
-
-### Common Issues
-
-1. **Out of Memory Errors**:
-   - Reduce `video_length` parameter
-   - Lower `subvideo_length` value
-   - Use a GPU with more VRAM
-   - Disable SAM 2 if using basic segmentation
-
-2. **Slow Processing**:
-   - Increase `ref_stride` value
-   - Reduce `neighbor_length`
-   - Use fewer inference steps
-   - Use SAM 2 base model instead of large model
-
-3. **Poor Quality Results**:
-   - Increase `guidance_scale`
-   - Add more inference steps
-   - Adjust `mask_dilation_iter`
-   - Use SAM 2 for better mask accuracy
-
-4. **SAM 2 Issues**:
-   - Ensure SAM 2 models are properly downloaded
-   - Check GPU memory when using large SAM 2 model
-   - Verify point/box prompts are correctly placed
-
-### Performance Optimization
-
-- **GPU Memory**: Use `--lowvram` flag if running out of memory
-- **CPU Processing**: Use `--cpu` flag for CPU-only processing (slower)
-- **Batch Size**: Adjust based on available VRAM
-
-## 📁 File Structure
-
-```
-ComfyUI/
-├── input/                          # Place your videos here
-│   └── your_video.mp4
-├── output/                         # Processed videos appear here
-│   └── AnimateDiff_00001-audio.mp4
-├── models/
-│   ├── diffusers/                  # DiffuEraser models
-│   ├── checkpoints/                # Base models
-│   ├── vae/                        # VAE models
-│   └── sam2/                       # SAM 2 models (optional)
-└── custom_nodes/                   # Installed custom nodes
+# Or step by step
+make setup              # Install ComfyUI + nodes
+make download-models    # Download SAM2 models
+make install-workflow   # Copy workflow to ComfyUI
+make run               # Start server on localhost:8188
 ```
 
-## 🎛️ Node Configuration
+## Manual Installation
+
+### Prerequisites
+
+- Python 3.8+
+- CUDA-compatible GPU (8GB+ VRAM recommended) OR Apple Silicon Mac (M1/M2/M3/M4 with MLX)
+- Git, wget
+
+```bash
+# Using Make (recommended)
+make setup              # Install ComfyUI and all custom nodes
+make install-sam2       # (Optional) Install SAM2 for advanced segmentation
+make install-mlx        # (Optional) Install MLX for Apple Silicon acceleration
+make download-models    # Download SAM2 models
+make install-workflow   # Copy workflow to ComfyUI
+
+# Manual installation
+git clone https://github.com/comfyanonymous/ComfyUI.git
+cd ComfyUI && pip install -r requirements.txt
+```
+
+### Required Models
+
+Place these in `ComfyUI/models/`:
+
+1. **checkpoints/realisticVisionV51_v51VAE.safetensors**
+2. **diffusers/pcm_sd15_smallcfg_2step_converted.safetensors**
+3. **sam2/** (auto-downloaded via `make download-models`)
+
+### Custom Nodes (Auto-installed)
+
+- ComfyUI_DiffuEraser
+- ComfyUI-VideoHelperSuite
+- ComfyUI-Easy-Use
+- ComfyUI-KJNodes
+- ComfyUI_LayerStyle
+- ComfyUI-SAM2 (optional - advanced segmentation)
+- ComfyUI-MLX (optional - Apple Silicon acceleration)
+
+## Usage
+
+```bash
+# Start server
+make run                # Standard mode
+make run-mlx            # MLX acceleration (Apple Silicon only)
+make run-lowvram        # Low VRAM mode
+make run-cpu            # CPU-only mode
+
+# Access at http://localhost:8188
+# Load workflow: workflows/inpainting-workflow.json
+```
+
+### Processing Workflow
+
+1. Place video in `ComfyUI/input/`
+2. Open http://localhost:8188
+3. Load `inpainting-workflow.json`
+4. Update video filename in `VHS_LoadVideo` node
+5. Configure parameters (see below)
+6. Click "Queue Prompt"
+7. Output appears in `ComfyUI/output/`
+
+## Configuration
 
 ### Key Parameters
 
-| Node | Parameter | Default | Description |
-|------|-----------|---------|-------------|
-| DiffuEraserSampler | num_inference_steps | 15 | Denoising steps |
-| DiffuEraserSampler | guidance_scale | 10 | Removal strength |
-| DiffuEraserSampler | video_length | 50 | Processing length |
-| VHS_LoadVideo | frame_load_cap | 300 | Max frames to process |
-| VHS_VideoCombine | frame_rate | 8 | Output frame rate |
-| SAM2Predictor | model_type | large | SAM 2 model size |
-| SAM2Predictor | points_per_side | 32 | Segmentation density |
+| Parameter | Default | Description |
+|-----------|---------|-------------|
+| num_inference_steps | 15 | Denoising steps |
+| guidance_scale | 10 | Removal strength |
+| video_length | 50 | Processing chunk size |
+| frame_load_cap | 300 | Max frames to load |
+| frame_rate | 8 | Output FPS |
 
-## 📝 Notes
+### Performance Tuning
 
-- **Processing Time**: Depends on video length and GPU power
-- **Quality**: Higher settings = better quality but slower processing
-- **Memory Usage**: Monitor VRAM usage during processing
-- **Output Format**: Videos are saved in MP4 format with H.264 encoding
-- **Universal Application**: This workflow works with any video source
-- **Customization**: Easily adapt parameters for different watermark types and video qualities
+**Out of memory?**
+- Reduce `video_length` or `subvideo_length`
+- Use `make run-lowvram`
+- Decrease `frame_load_cap`
 
-## 🤝 Contributing
+**Too slow?**
+- Increase `ref_stride`
+- Reduce `neighbor_length`
+- Lower `num_inference_steps`
 
-Feel free to submit issues and enhancement requests!
+**Poor quality?**
+- Increase `guidance_scale`
+- Add more `num_inference_steps`
+- Enable SAM2 for better masks
 
-## 📄 License
+## Makefile Commands
 
-This workflow is provided as-is for educational and research purposes.
+```bash
+make help               # Show all commands
+make setup              # Complete setup
+make all                # Setup + workflow + models
+make run                # Start ComfyUI server
+make update             # Update ComfyUI and nodes
+make test               # Test installation
+make clean              # Remove caches
+make info               # Show installation info
+make models-info        # Show downloaded models
+```
 
-## 🎭 Watermark Masks
+## Architecture
 
-These are examples of masks that can be used with the workflow to remove various watermark orientations and types:
+```
+Input Video → Load & Process → DiffuEraser → SAM2 (optional) → Output Video
+                                    ↓
+                            Watermark Removal
+                                    ↓
+                            Temporal Smoothing
+```
 
-### Horizontal Watermark
-![Horizontal Watermark Example](horizontal-mask.png)
-*Example of horizontal watermark mask that can be used with this workflow*
+## Troubleshooting
 
-### Vertical Watermark
-![Vertical Watermark Example](vertical-mask.png)
-*Example of vertical watermark mask that can be used with this workflow*
+| Issue | Solution |
+|-------|----------|
+| CUDA out of memory | Use `make run-lowvram` or reduce batch size |
+| Models not found | Check paths in `ComfyUI/models/` |
+| Slow processing | Reduce video length or use GPU |
+| Poor results | Increase guidance_scale or use SAM2 |
+
+## Development
+
+```bash
+make clean              # Clean caches
+make update             # Update all components
+make uninstall          # Remove ComfyUI
+```
+
+## License
+
+Educational and research purposes only.
+
+## How It Works
+
+1. **Mask Selection** - Use SAM2 to click/segment objects or create manual masks
+2. **Context Analysis** - AI analyzes surrounding pixels and video frames
+3. **Intelligent Reconstruction** - Diffusion model generates realistic fill content
+4. **Temporal Blending** - Ensures smooth consistency across frames
+5. **Output** - Clean video with removed content seamlessly inpainted
+
+**Note**: This is true inpainting, not just erasing. The AI intelligently reconstructs what should be there based on context.
+
+## About
+
+Hanzo Painter is part of the [Hanzo AI](https://hanzo.ai) ecosystem, providing AI infrastructure and services for developers.
+
+- **hanzo.ai** - Core AI infrastructure platform
+- **hanzo.io** - Business solutions
+- **hanzo.network** - Decentralized compute marketplace
 
 ---
 
-**Happy watermark removing! 🎬✨**
+Made with ❤️ by [Hanzo AI](https://hanzo.ai)
