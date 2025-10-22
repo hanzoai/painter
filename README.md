@@ -59,15 +59,15 @@ Place these in `ComfyUI/models/`:
 2. **diffusers/pcm_sd15_smallcfg_2step_converted.safetensors**
 3. **sam2/** (auto-downloaded via `make download-models`)
 
-### Custom Nodes (Auto-installed)
+### Hanzo Custom Nodes (Auto-installed)
 
-- ComfyUI_DiffuEraser
-- ComfyUI-VideoHelperSuite
-- ComfyUI-Easy-Use
-- ComfyUI-KJNodes
-- ComfyUI_LayerStyle
+- **Hanzo-DiffuEraser** - AI-powered content-aware inpainting engine
+- **Hanzo-VideoHelper** - Video I/O and processing suite
+- **Hanzo-EasyUse** - Simplified workflow utilities
+- **Hanzo-KJNodes** - Core utility nodes with JWInteger support
+- **Hanzo-LayerStyle** - Photoshop-like layer compositing
+- **Hanzo-MLX** - Native Apple Silicon acceleration (optional)
 - ComfyUI-SAM2 (optional - advanced segmentation)
-- ComfyUI-MLX (optional - Apple Silicon acceleration)
 
 ## Usage
 
@@ -175,6 +175,36 @@ Educational and research purposes only.
 5. **Output** - Clean video with removed content seamlessly inpainted
 
 **Note**: This is true inpainting, not just erasing. The AI intelligently reconstructs what should be there based on context.
+
+## Hanzo ComfyUI Ecosystem
+
+Hanzo Painter uses a curated stack of ComfyUI custom nodes maintained as **Hanzo forks**. This approach ensures:
+
+- ✅ **Stability** - Tested versions that work together seamlessly
+- ✅ **Upstream Sync** - Regular updates from original maintainers
+- ✅ **Hanzo Enhancements** - Custom improvements and integrations
+- ✅ **Unified Support** - Single source of truth for the Hanzo ecosystem
+
+### Hanzo Custom Nodes
+
+All nodes are available at [github.com/hanzoai](https://github.com/hanzoai):
+
+| Node | Purpose | Upstream |
+|------|---------|----------|
+| **Hanzo-DiffuEraser** | Content-aware inpainting | smthemex/ComfyUI_DiffuEraser |
+| **Hanzo-VideoHelper** | Video I/O suite | Kosinkadink/ComfyUI-VideoHelperSuite |
+| **Hanzo-EasyUse** | Workflow utilities | yolain/ComfyUI-Easy-Use |
+| **Hanzo-KJNodes** | Core utilities | kijai/ComfyUI-KJNodes |
+| **Hanzo-LayerStyle** | Layer compositing | chflame163/ComfyUI_LayerStyle |
+| **Hanzo-MLX** | Apple Silicon acceleration | thoddnn/ComfyUI-MLX |
+
+### Contributing
+
+Improvements to Hanzo custom nodes benefit the entire ecosystem:
+
+1. **Fork & PR** - Submit PRs to Hanzo forks for Hanzo-specific features
+2. **Upstream First** - For general improvements, contribute to upstream repos
+3. **Sync Back** - Hanzo forks regularly pull upstream changes
 
 ## About
 

@@ -43,35 +43,35 @@ install-comfyui: check-deps ## Install ComfyUI
 	fi
 
 install-nodes: ## Install required custom nodes
-	@echo "$(YELLOW)Installing custom nodes...$(NC)"
+	@echo "$(YELLOW)Installing Hanzo custom nodes...$(NC)"
 	@cd $(COMFYUI_DIR)/custom_nodes && \
-		if [ ! -d "ComfyUI_DiffuEraser" ]; then \
-			git clone git@github.com:smthemex/ComfyUI_DiffuEraser.git ComfyUI_DiffuEraser && \
-			echo "$(GREEN)✓ DiffuEraser installed$(NC)"; \
+		if [ ! -d "Hanzo-DiffuEraser" ]; then \
+			git clone git@github.com:hanzoai/Hanzo-DiffuEraser.git && \
+			echo "$(GREEN)✓ Hanzo-DiffuEraser installed$(NC)"; \
 		fi
 	@cd $(COMFYUI_DIR)/custom_nodes && \
-		if [ ! -d "ComfyUI-VideoHelperSuite" ]; then \
-			git clone git@github.com:Kosinkadink/ComfyUI-VideoHelperSuite.git && \
-			cd ComfyUI-VideoHelperSuite && $(PIP) install -r requirements.txt && \
-			echo "$(GREEN)✓ VideoHelperSuite installed$(NC)"; \
+		if [ ! -d "Hanzo-VideoHelper" ]; then \
+			git clone git@github.com:hanzoai/Hanzo-VideoHelper.git && \
+			cd Hanzo-VideoHelper && $(PIP) install -r requirements.txt && \
+			echo "$(GREEN)✓ Hanzo-VideoHelper installed$(NC)"; \
 		fi
 	@cd $(COMFYUI_DIR)/custom_nodes && \
-		if [ ! -d "ComfyUI-Easy-Use" ]; then \
-			git clone git@github.com:yolain/ComfyUI-Easy-Use.git && \
-			echo "$(GREEN)✓ Easy-Use installed$(NC)"; \
+		if [ ! -d "Hanzo-EasyUse" ]; then \
+			git clone git@github.com:hanzoai/Hanzo-EasyUse.git && \
+			echo "$(GREEN)✓ Hanzo-EasyUse installed$(NC)"; \
 		fi
 	@cd $(COMFYUI_DIR)/custom_nodes && \
-		if [ ! -d "ComfyUI-KJNodes" ]; then \
-			git clone git@github.com:kijai/ComfyUI-KJNodes.git && \
-			cd ComfyUI-KJNodes && $(PIP) install -r requirements.txt && \
-			echo "$(GREEN)✓ KJNodes installed$(NC)"; \
+		if [ ! -d "Hanzo-KJNodes" ]; then \
+			git clone git@github.com:hanzoai/Hanzo-KJNodes.git && \
+			cd Hanzo-KJNodes && $(PIP) install -r requirements.txt && \
+			echo "$(GREEN)✓ Hanzo-KJNodes installed$(NC)"; \
 		fi
 	@cd $(COMFYUI_DIR)/custom_nodes && \
-		if [ ! -d "ComfyUI_LayerStyle" ]; then \
-			git clone git@github.com:chflame163/ComfyUI_LayerStyle.git && \
-			echo "$(GREEN)✓ LayerStyle installed$(NC)"; \
+		if [ ! -d "Hanzo-LayerStyle" ]; then \
+			git clone git@github.com:hanzoai/Hanzo-LayerStyle.git && \
+			echo "$(GREEN)✓ Hanzo-LayerStyle installed$(NC)"; \
 		fi
-	@echo "$(GREEN)✓ All custom nodes installed$(NC)"
+	@echo "$(GREEN)✓ All Hanzo custom nodes installed$(NC)"
 
 install-sam2: ## Install SAM2 (optional advanced segmentation)
 	@echo "$(YELLOW)Installing SAM2...$(NC)"
@@ -85,14 +85,14 @@ install-sam2: ## Install SAM2 (optional advanced segmentation)
 		fi
 
 install-mlx: ## Install MLX support for Apple Silicon acceleration
-	@echo "$(YELLOW)Installing MLX support for Apple Silicon...$(NC)"
+	@echo "$(YELLOW)Installing Hanzo-MLX for Apple Silicon...$(NC)"
 	@cd $(COMFYUI_DIR)/custom_nodes && \
-		if [ ! -d "ComfyUI-MLX" ]; then \
-			git clone https://github.com/thoddnn/ComfyUI-MLX.git && \
-			cd ComfyUI-MLX && $(PYTHON) -m pip install --break-system-packages -r requirements.txt && \
-			echo "$(GREEN)✓ MLX support installed$(NC)"; \
+		if [ ! -d "Hanzo-MLX" ]; then \
+			git clone git@github.com:hanzoai/Hanzo-MLX.git && \
+			cd Hanzo-MLX && $(PYTHON) -m pip install --break-system-packages -r requirements.txt && \
+			echo "$(GREEN)✓ Hanzo-MLX installed$(NC)"; \
 		else \
-			echo "$(YELLOW)MLX support already installed$(NC)"; \
+			echo "$(YELLOW)Hanzo-MLX already installed$(NC)"; \
 		fi
 	@echo "$(GREEN)MLX Performance: Up to 70% faster model loading, 35% faster inference$(NC)"
 	@echo "$(YELLOW)Note: Currently optimized for Flux models. SD 1.5 support coming soon.$(NC)"

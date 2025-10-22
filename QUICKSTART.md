@@ -16,7 +16,7 @@ make all
 
 This will:
 - ✓ Install ComfyUI
-- ✓ Install all custom nodes (DiffuEraser, VideoHelper, etc.)
+- ✓ Install all Hanzo custom nodes (Hanzo-DiffuEraser, Hanzo-VideoHelper, etc.)
 - ✓ Download SAM2 models
 - ✓ Copy workflow to ComfyUI
 
