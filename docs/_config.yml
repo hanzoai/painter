@@ -1,0 +1,38 @@
+title: Hanzo Painter
+description: AI-powered content-aware inpainting for videos and images
+theme: jekyll-theme-cayman
+repository: hanzoai/painter
+
+# Social
+github_username: hanzoai
+twitter_username: hanzoai
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+
+# Navigation
+nav:
+  - title: Home
+    url: /
+  - title: Quick Start
+    url: /quickstart
+  - title: Installation
+    url: /installation
+  - title: Usage
+    url: /usage
+  - title: Troubleshooting
+    url: /troubleshooting
+  - title: GitHub
+    url: https://github.com/hanzoai/painter
+
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+
+# SEO
+url: "https://hanzoai.github.io"
+baseurl: "/painter"
