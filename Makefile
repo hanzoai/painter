@@ -170,10 +170,30 @@ clean-output: ## Remove output videos
 	@rm -rf $(COMFYUI_DIR)/output/*
 	@echo "$(GREEN)✓ Output cleaned$(NC)"
 
-test: ## Test ComfyUI installation
+test: ## Run test suite
+	@echo "$(YELLOW)Running Hanzo Painter tests...$(NC)"
+	@$(PYTHON) -m pytest -v
+	@echo "$(GREEN)✓ Tests complete$(NC)"
+
+test-unit: ## Run unit tests only
+	@echo "$(YELLOW)Running unit tests...$(NC)"
+	@$(PYTHON) -m pytest -v -m unit
+	@echo "$(GREEN)✓ Unit tests complete$(NC)"
+
+test-integration: ## Run integration tests
+	@echo "$(YELLOW)Running integration tests...$(NC)"
+	@$(PYTHON) -m pytest -v -m integration
+	@echo "$(GREEN)✓ Integration tests complete$(NC)"
+
+test-coverage: ## Run tests with coverage report
+	@echo "$(YELLOW)Running tests with coverage...$(NC)"
+	@$(PYTHON) -m pytest --cov=. --cov-report=html --cov-report=term
+	@echo "$(GREEN)✓ Coverage report generated in htmlcov/$(NC)"
+
+test-comfyui: ## Test ComfyUI installation
 	@echo "$(YELLOW)Testing ComfyUI installation...$(NC)"
 	@cd $(COMFYUI_DIR) && $(PYTHON) -c "import torch; print(f'PyTorch: {torch.__version__}'); print(f'CUDA available: {torch.cuda.is_available()}'); print(f'CUDA version: {torch.version.cuda if torch.cuda.is_available() else \"N/A\"}')"
-	@echo "$(GREEN)✓ Test complete$(NC)"
+	@echo "$(GREEN)✓ ComfyUI test complete$(NC)"
 
 info: ## Show installation info
 	@echo "$(BLUE)Hanzo Painter - Installation Info$(NC)"

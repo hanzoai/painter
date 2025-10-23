@@ -1,0 +1,3 @@
+"""
+Hanzo Painter Test Suite
+"""
