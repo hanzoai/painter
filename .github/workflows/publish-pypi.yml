@@ -3,6 +3,12 @@ name: Publish to PyPI
 on:
   release:
     types: [published]
+
+  push:
+    tags:
+      - 'v*'
+      - 'hanzo-studio-*'
+
   workflow_dispatch:
     inputs:
       test_pypi:
@@ -14,39 +20,46 @@ on:
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      id-token: write  # Required for trusted publishing
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      
+
       - name: Install build tools
         run: |
           python -m pip install --upgrade pip
           pip install build twine
-      
+
       - name: Build package
-        run: python -m build
-      
+        run: |
+          echo "🔨 Building package..."
+          python -m build
+
       - name: Check package
-        run: twine check dist/*
-      
+        run: |
+          echo "🔍 Checking package..."
+          twine check dist/*
+
       - name: Publish to TestPyPI
         if: github.event.inputs.test_pypi == 'true'
-        uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          repository-url: https://test.pypi.org/legacy/
-          skip-existing: true
-      
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.TEST_PYPI_TOKEN }}
+        run: |
+          echo "🧪 Publishing to TestPyPI..."
+          python -m twine upload --repository testpypi dist/* --skip-existing
+
       - name: Publish to PyPI
         if: github.event.inputs.test_pypi != 'true'
-        uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          skip-existing: true
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.HANZO_PYPI_TOKEN || secrets.PYPI_TOKEN }}
+        run: |
+          echo "🚀 Publishing to PyPI..."
+          python -m twine upload dist/* --skip-existing
+          echo "✅ Published to PyPI!"

@@ -1,0 +1,120 @@
+name: Auto-Publish to PyPI
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'pyproject.toml'
+  workflow_dispatch:
+    inputs:
+      force:
+        description: 'Force publish even if version exists on PyPI'
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  check-and-publish:
+    name: Check Version and Publish
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install build twine toml
+
+      - name: Get local version
+        id: local_version
+        run: |
+          LOCAL_VERSION=$(python -c "import tomllib; print(tomllib.load(open('pyproject.toml', 'rb'))['project']['version'])")
+          echo "version=$LOCAL_VERSION" >> $GITHUB_OUTPUT
+          echo "📦 Local version: $LOCAL_VERSION"
+
+      - name: Check PyPI version
+        id: pypi_version
+        run: |
+          PYPI_VERSION=$(python -c "
+          import urllib.request, json
+          try:
+              with urllib.request.urlopen('https://pypi.org/pypi/hanzo-studio/json') as r:
+                  print(json.loads(r.read())['info']['version'])
+          except:
+              print('not-published')
+          " 2>/dev/null || echo "not-published")
+          echo "version=$PYPI_VERSION" >> $GITHUB_OUTPUT
+          echo "🌐 PyPI version: $PYPI_VERSION"
+
+      - name: Compare versions
+        id: compare
+        run: |
+          LOCAL="${{ steps.local_version.outputs.version }}"
+          PYPI="${{ steps.pypi_version.outputs.version }}"
+          FORCE="${{ github.event.inputs.force }}"
+
+          if [ "$LOCAL" != "$PYPI" ] || [ "$PYPI" == "not-published" ] || [ "$FORCE" == "true" ]; then
+            echo "should_publish=true" >> $GITHUB_OUTPUT
+            echo "✅ Will publish: Local ($LOCAL) != PyPI ($PYPI) or force=$FORCE"
+          else
+            echo "should_publish=false" >> $GITHUB_OUTPUT
+            echo "⏭️  Skipping: Versions match ($LOCAL)"
+          fi
+
+      - name: Build package
+        if: steps.compare.outputs.should_publish == 'true'
+        run: |
+          echo "🔨 Building hanzo-studio ${{ steps.local_version.outputs.version }}..."
+          python -m build
+
+      - name: Check package
+        if: steps.compare.outputs.should_publish == 'true'
+        run: |
+          echo "🔍 Checking package integrity..."
+          twine check dist/*
+
+      - name: Publish to PyPI
+        if: steps.compare.outputs.should_publish == 'true'
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.HANZO_PYPI_TOKEN || secrets.PYPI_TOKEN }}
+        run: |
+          echo "🚀 Publishing to PyPI..."
+          python -m twine upload dist/* --skip-existing
+          echo "✅ Published hanzo-studio ${{ steps.local_version.outputs.version }} to PyPI!"
+
+      - name: Create GitHub Release
+        if: steps.compare.outputs.should_publish == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const version = '${{ steps.local_version.outputs.version }}';
+            const tagName = `v${version}`;
+
+            // Create or update release
+            try {
+              await github.rest.repos.createRelease({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                tag_name: tagName,
+                name: `Hanzo Studio ${version}`,
+                body: `## 🚀 Hanzo Studio ${version}\n\n**PyPI**: https://pypi.org/project/hanzo-studio/${version}/\n\n### Installation\n\`\`\`bash\npip install hanzo-studio==${version}\n\`\`\`\n\n### Upgrade\n\`\`\`bash\npip install --upgrade hanzo-studio\n\`\`\``,
+                draft: false,
+                prerelease: false
+              });
+              console.log(`✅ Created release ${tagName}`);
+            } catch (error) {
+              if (error.status === 422) {
+                console.log(`ℹ️  Release ${tagName} already exists`);
+              } else {
+                console.log(`⚠️  Could not create release: ${error.message}`);
+              }
+            }
