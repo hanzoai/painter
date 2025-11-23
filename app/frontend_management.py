@@ -19,7 +19,7 @@ from typing_extensions import NotRequired
 
 from utils.install_util import get_missing_requirements_message, requirements_path
 
-from comfy.cli_args import DEFAULT_VERSION_STRING
+from studio.cli_args import DEFAULT_VERSION_STRING
 import app.logger
 
 
@@ -27,7 +27,7 @@ def frontend_install_warning_message():
     return f"""
 {get_missing_requirements_message()}
 
-This error is happening because the ComfyUI frontend is no longer shipped as part of the main repo but as a pip package instead.
+This error is happening because the Studio frontend is no longer shipped as part of the main repo but as a pip package instead.
 """.strip()
 
 def parse_version(version: str) -> tuple[int, int, int]:
@@ -40,7 +40,7 @@ def is_valid_version(version: str) -> bool:
 
 def get_installed_frontend_version():
     """Get the currently installed frontend package version."""
-    frontend_version_str = version("comfyui-frontend-package")
+    frontend_version_str = version("studioui-frontend-package")
     return frontend_version_str
 
 
@@ -50,13 +50,13 @@ def get_required_frontend_version():
         with open(requirements_path, "r", encoding="utf-8") as f:
             for line in f:
                 line = line.strip()
-                if line.startswith("comfyui-frontend-package=="):
+                if line.startswith("studioui-frontend-package=="):
                     version_str = line.split("==")[-1]
                     if not is_valid_version(version_str):
                         logging.error(f"Invalid version format in requirements.txt: {version_str}")
                         return None
                     return version_str
-            logging.error("comfyui-frontend-package not found in requirements.txt")
+            logging.error("studioui-frontend-package not found in requirements.txt")
             return None
     except FileNotFoundError:
         logging.error("requirements.txt not found. Cannot determine required frontend version.")
@@ -87,7 +87,7 @@ ________________________________________________________________________
 """.strip()
             )
         else:
-            logging.info("ComfyUI frontend version: {}".format(frontend_version_str))
+            logging.info("Studio frontend version: {}".format(frontend_version_str))
     except Exception as e:
         logging.error(f"Failed to check frontend version: {e}")
 
@@ -210,7 +210,7 @@ class FrontendManager:
     def get_installed_templates_version(cls) -> str:
         """Get the currently installed workflow templates package version."""
         try:
-            templates_version_str = version("comfyui-workflow-templates")
+            templates_version_str = version("studioui-workflow-templates")
             return templates_version_str
         except Exception:
             return None
@@ -222,13 +222,13 @@ class FrontendManager:
             with open(requirements_path, "r", encoding="utf-8") as f:
                 for line in f:
                     line = line.strip()
-                    if line.startswith("comfyui-workflow-templates=="):
+                    if line.startswith("studioui-workflow-templates=="):
                         version_str = line.split("==")[-1]
                         if not is_valid_version(version_str):
                             logging.error(f"Invalid templates version format in requirements.txt: {version_str}")
                             return None
                         return version_str
-                logging.error("comfyui-workflow-templates not found in requirements.txt")
+                logging.error("studioui-workflow-templates not found in requirements.txt")
                 return None
         except FileNotFoundError:
             logging.error("requirements.txt not found. Cannot determine required templates version.")
@@ -240,15 +240,15 @@ class FrontendManager:
     @classmethod
     def default_frontend_path(cls) -> str:
         try:
-            import comfyui_frontend_package
+            import studioui_frontend_package
 
-            return str(importlib.resources.files(comfyui_frontend_package) / "static")
+            return str(importlib.resources.files(studioui_frontend_package) / "static")
         except ImportError:
             logging.error(
                 f"""
 ********** ERROR ***********
 
-comfyui-frontend-package is not installed.
+studioui-frontend-package is not installed.
 
 {frontend_install_warning_message()}
 
@@ -261,7 +261,7 @@ comfyui-frontend-package is not installed.
     def template_asset_map(cls) -> Optional[Dict[str, str]]:
         """Return a mapping of template asset names to their absolute paths."""
         try:
-            from comfyui_workflow_templates import (
+            from studioui_workflow_templates import (
                 get_asset_path,
                 iter_templates,
             )
@@ -270,7 +270,7 @@ comfyui-frontend-package is not installed.
                 f"""
 ********** ERROR ***********
 
-comfyui-workflow-templates is not installed.
+studioui-workflow-templates is not installed.
 
 {frontend_install_warning_message()}
 
@@ -307,17 +307,17 @@ comfyui-workflow-templates is not installed.
     def legacy_templates_path(cls) -> Optional[str]:
         """Return the legacy templates directory shipped inside the meta package."""
         try:
-            import comfyui_workflow_templates
+            import studioui_workflow_templates
 
             return str(
-                importlib.resources.files(comfyui_workflow_templates) / "templates"
+                importlib.resources.files(studioui_workflow_templates) / "templates"
             )
         except ImportError:
             logging.error(
                 f"""
 ********** ERROR ***********
 
-comfyui-workflow-templates is not installed.
+studioui-workflow-templates is not installed.
 
 {frontend_install_warning_message()}
 
@@ -330,13 +330,13 @@ comfyui-workflow-templates is not installed.
     def embedded_docs_path(cls) -> str:
         """Get the path to embedded documentation"""
         try:
-            import comfyui_embedded_docs
+            import studioui_embedded_docs
 
             return str(
-                importlib.resources.files(comfyui_embedded_docs) / "docs"
+                importlib.resources.files(studioui_embedded_docs) / "docs"
             )
         except ImportError:
-            logging.info("comfyui-embedded-docs package not found")
+            logging.info("studioui-embedded-docs package not found")
             return None
 
     @classmethod

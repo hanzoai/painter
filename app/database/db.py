@@ -3,7 +3,7 @@ import os
 import shutil
 from app.logger import log_startup_warning
 from utils.install_util import get_missing_requirements_message
-from comfy.cli_args import args
+from studio.cli_args import args
 
 _DB_AVAILABLE = False
 Session = None
@@ -24,7 +24,7 @@ except ImportError as e:
 ------------------------------------------------------------------------
 Error importing dependencies: {e}
 {get_missing_requirements_message()}
-This error is happening because ComfyUI now uses a local sqlite database.
+This error is happening because Studio now uses a local sqlite database.
 ------------------------------------------------------------------------
 """.strip()
     )

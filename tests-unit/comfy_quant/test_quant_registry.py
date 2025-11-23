@@ -3,17 +3,17 @@ import torch
 import sys
 import os
 
-# Add comfy to path
+# Add studio to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
 
 def has_gpu():
     return torch.cuda.is_available()
 
-from comfy.cli_args import args
+from studio.cli_args import args
 if not has_gpu():
     args.cpu = True
 
-from comfy.quant_ops import QuantizedTensor, TensorCoreFP8Layout
+from studio.quant_ops import QuantizedTensor, TensorCoreFP8Layout
 
 
 class TestQuantizedTensor(unittest.TestCase):

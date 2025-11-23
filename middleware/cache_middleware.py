@@ -1,4 +1,4 @@
-"""Cache control middleware for ComfyUI server"""
+"""Cache control middleware for Studio server"""
 
 from aiohttp import web
 from typing import Callable, Awaitable

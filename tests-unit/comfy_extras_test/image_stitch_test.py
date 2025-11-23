@@ -9,7 +9,7 @@ mock_nodes.MAX_RESOLUTION = 16384
 mock_server = MagicMock()
 
 with patch.dict('sys.modules', {'nodes': mock_nodes, 'server': mock_server}):
-    from comfy_extras.nodes_images import ImageStitch
+    from studio_extras.nodes_images import ImageStitch
 
 
 class TestImageStitch:

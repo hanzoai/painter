@@ -8,8 +8,8 @@ from unittest.mock import patch
 from importlib import reload
 
 import folder_paths
-import comfy.cli_args
-from comfy.options import enable_args_parsing
+import studio.cli_args
+from studio.options import enable_args_parsing
 enable_args_parsing()
 
 
@@ -30,12 +30,12 @@ def set_base_dir():
     def _set_base_dir(base_dir):
         # Mock CLI args
         with patch.object(sys, 'argv', ["main.py", "--base-directory", base_dir]):
-            reload(comfy.cli_args)
+            reload(studio.cli_args)
             reload(folder_paths)
     yield _set_base_dir
     # Reload the modules after each test to ensure isolation
     with patch.object(sys, 'argv', ["main.py"]):
-        reload(comfy.cli_args)
+        reload(studio.cli_args)
         reload(folder_paths)
 
 

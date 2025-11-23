@@ -135,7 +135,7 @@ prompt_text = """
     "9": {
         "class_type": "SaveImage",
         "inputs": {
-            "filename_prefix": "ComfyUI",
+            "filename_prefix": "Studio",
             "images": [
                 "8",
                 0

@@ -1,9 +1,9 @@
 import io
-from comfy_api.input_impl.video_types import (
+from studio_api.input_impl.video_types import (
     container_to_output_format,
     get_open_write_kwargs,
 )
-from comfy_api.util import VideoContainer
+from studio_api.util import VideoContainer
 
 
 def test_container_to_output_format_empty_string():

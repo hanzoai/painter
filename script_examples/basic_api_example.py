@@ -1,7 +1,7 @@
 import json
 from urllib import request
 
-#This is the ComfyUI api prompt format.
+#This is the Studio api prompt format.
 
 #If you want it for a specific workflow you can "File -> Export (API)" in the interface.
 
@@ -85,7 +85,7 @@ prompt_text = """
     "9": {
         "class_type": "SaveImage",
         "inputs": {
-            "filename_prefix": "ComfyUI",
+            "filename_prefix": "Studio",
             "images": [
                 "8",
                 0
@@ -98,12 +98,12 @@ prompt_text = """
 def queue_prompt(prompt):
     p = {"prompt": prompt}
 
-    # If the workflow contains API nodes, you can add a Comfy API key to the `extra_data`` field of the payload.
+    # If the workflow contains API nodes, you can add a Studio API key to the `extra_data`` field of the payload.
     # p["extra_data"] = {
-    #     "api_key_comfy_org": "comfyui-87d01e28d*******************************************************"  # replace with real key
+    #     "api_key_studio_org": "studioui-87d01e28d*******************************************************"  # replace with real key
     # }
-    # See: https://docs.comfy.org/tutorials/api-nodes/overview
-    # Generate a key here: https://platform.comfy.org/login
+    # See: https://docs.studio.org/tutorials/api-nodes/overview
+    # Generate a key here: https://platform.studio.org/login
 
     data = json.dumps(p).encode('utf-8')
     req =  request.Request("http://127.0.0.1:8188/prompt", data=data)
