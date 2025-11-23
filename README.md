@@ -17,19 +17,19 @@
 [matrix-shield]: https://img.shields.io/badge/Matrix-000000?style=flat&logo=matrix&logoColor=white
 [matrix-url]: https://app.element.io/#/room/%23studioui_space%3Amatrix.org
 [website-shield]: https://img.shields.io/badge/StudioOrg-4285F4?style=flat
-[website-url]: https://www.studio.org/
+[website-url]: https://studio.hanzo.ai/
 <!-- Workaround to display total user from https://github.com/badges/shields/issues/4500#issuecomment-2060079995 -->
 [discord-shield]: https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fdiscord.com%2Fapi%2Finvites%2Fstudioorg%3Fwith_counts%3Dtrue&query=%24.approximate_member_count&logo=discord&logoColor=white&label=Discord&color=green&suffix=%20total
-[discord-url]: https://www.studio.org/discord
+[discord-url]: https://studio.hanzo.ai/discord
 [twitter-shield]: https://img.shields.io/twitter/follow/Studio
 [twitter-url]: https://x.com/Studio
 
-[github-release-shield]: https://img.shields.io/github/v/release/studioanonymous/Studio?style=flat&sort=semver
-[github-release-link]: https://github.com/studioanonymous/Studio/releases
-[github-release-date-shield]: https://img.shields.io/github/release-date/studioanonymous/Studio?style=flat
-[github-downloads-shield]: https://img.shields.io/github/downloads/studioanonymous/Studio/total?style=flat
-[github-downloads-latest-shield]: https://img.shields.io/github/downloads/studioanonymous/Studio/latest/total?style=flat&label=downloads%40latest
-[github-downloads-link]: https://github.com/studioanonymous/Studio/releases
+[github-release-shield]: https://img.shields.io/github/v/release/hanzoai/Studio?style=flat&sort=semver
+[github-release-link]: https://github.com/hanzoai/Studio/releases
+[github-release-date-shield]: https://img.shields.io/github/release-date/hanzoai/Studio?style=flat
+[github-downloads-shield]: https://img.shields.io/github/downloads/hanzoai/Studio/total?style=flat
+[github-downloads-latest-shield]: https://img.shields.io/github/downloads/hanzoai/Studio/latest/total?style=flat&label=downloads%40latest
+[github-downloads-link]: https://github.com/hanzoai/Studio/releases
 
 ![Studio Screenshot](https://github.com/user-attachments/assets/7ccaf2c1-9b72-41ae-9a89-5688c94b7abe)
 </div>
@@ -38,7 +38,7 @@ Studio lets you design and execute advanced stable diffusion pipelines using a g
 
 ## Get Started
 
-#### [Desktop Application](https://www.studio.org/download)
+#### [Desktop Application](https://studio.hanzo.ai/download)
 - The easiest way to get started.
 - Available on Windows & macOS.
 
@@ -49,41 +49,41 @@ Studio lets you design and execute advanced stable diffusion pipelines using a g
 #### [Manual Install](#manual-install-windows-linux)
 Supports all operating systems and GPU types (NVIDIA, AMD, Intel, Apple Silicon, Ascend).
 
-## [Examples](https://studioanonymous.github.io/Studio_examples/)
-See what Studio can do with the [example workflows](https://studioanonymous.github.io/Studio_examples/).
+## [Examples](https://hanzoai.github.io/Studio_examples/)
+See what Studio can do with the [example workflows](https://hanzoai.github.io/Studio_examples/).
 
 ## Features
 - Nodes/graph/flowchart interface to experiment and create complex Stable Diffusion workflows without needing to code anything.
 - Image Models
-   - SD1.x, SD2.x ([unCLIP](https://studioanonymous.github.io/Studio_examples/unclip/))
-   - [SDXL](https://studioanonymous.github.io/Studio_examples/sdxl/), [SDXL Turbo](https://studioanonymous.github.io/Studio_examples/sdturbo/)
-   - [Stable Cascade](https://studioanonymous.github.io/Studio_examples/stable_cascade/)
-   - [SD3 and SD3.5](https://studioanonymous.github.io/Studio_examples/sd3/)
+   - SD1.x, SD2.x ([unCLIP](https://hanzoai.github.io/Studio_examples/unclip/))
+   - [SDXL](https://hanzoai.github.io/Studio_examples/sdxl/), [SDXL Turbo](https://hanzoai.github.io/Studio_examples/sdturbo/)
+   - [Stable Cascade](https://hanzoai.github.io/Studio_examples/stable_cascade/)
+   - [SD3 and SD3.5](https://hanzoai.github.io/Studio_examples/sd3/)
    - Pixart Alpha and Sigma
-   - [AuraFlow](https://studioanonymous.github.io/Studio_examples/aura_flow/)
-   - [HunyuanDiT](https://studioanonymous.github.io/Studio_examples/hunyuan_dit/)
-   - [Flux](https://studioanonymous.github.io/Studio_examples/flux/)
-   - [Lumina Image 2.0](https://studioanonymous.github.io/Studio_examples/lumina2/)
-   - [HiDream](https://studioanonymous.github.io/Studio_examples/hidream/)
-   - [Qwen Image](https://studioanonymous.github.io/Studio_examples/qwen_image/)
-   - [Hunyuan Image 2.1](https://studioanonymous.github.io/Studio_examples/hunyuan_image/)
+   - [AuraFlow](https://hanzoai.github.io/Studio_examples/aura_flow/)
+   - [HunyuanDiT](https://hanzoai.github.io/Studio_examples/hunyuan_dit/)
+   - [Flux](https://hanzoai.github.io/Studio_examples/flux/)
+   - [Lumina Image 2.0](https://hanzoai.github.io/Studio_examples/lumina2/)
+   - [HiDream](https://hanzoai.github.io/Studio_examples/hidream/)
+   - [Qwen Image](https://hanzoai.github.io/Studio_examples/qwen_image/)
+   - [Hunyuan Image 2.1](https://hanzoai.github.io/Studio_examples/hunyuan_image/)
 - Image Editing Models
-   - [Omnigen 2](https://studioanonymous.github.io/Studio_examples/omnigen/)
-   - [Flux Kontext](https://studioanonymous.github.io/Studio_examples/flux/#flux-kontext-image-editing-model)
-   - [HiDream E1.1](https://studioanonymous.github.io/Studio_examples/hidream/#hidream-e11)
-   - [Qwen Image Edit](https://studioanonymous.github.io/Studio_examples/qwen_image/#edit-model)
+   - [Omnigen 2](https://hanzoai.github.io/Studio_examples/omnigen/)
+   - [Flux Kontext](https://hanzoai.github.io/Studio_examples/flux/#flux-kontext-image-editing-model)
+   - [HiDream E1.1](https://hanzoai.github.io/Studio_examples/hidream/#hidream-e11)
+   - [Qwen Image Edit](https://hanzoai.github.io/Studio_examples/qwen_image/#edit-model)
 - Video Models
-   - [Stable Video Diffusion](https://studioanonymous.github.io/Studio_examples/video/)
-   - [Mochi](https://studioanonymous.github.io/Studio_examples/mochi/)
-   - [LTX-Video](https://studioanonymous.github.io/Studio_examples/ltxv/)
-   - [Hunyuan Video](https://studioanonymous.github.io/Studio_examples/hunyuan_video/)
-   - [Wan 2.1](https://studioanonymous.github.io/Studio_examples/wan/)
-   - [Wan 2.2](https://studioanonymous.github.io/Studio_examples/wan22/)
+   - [Stable Video Diffusion](https://hanzoai.github.io/Studio_examples/video/)
+   - [Mochi](https://hanzoai.github.io/Studio_examples/mochi/)
+   - [LTX-Video](https://hanzoai.github.io/Studio_examples/ltxv/)
+   - [Hunyuan Video](https://hanzoai.github.io/Studio_examples/hunyuan_video/)
+   - [Wan 2.1](https://hanzoai.github.io/Studio_examples/wan/)
+   - [Wan 2.2](https://hanzoai.github.io/Studio_examples/wan22/)
 - Audio Models
-   - [Stable Audio](https://studioanonymous.github.io/Studio_examples/audio/)
-   - [ACE Step](https://studioanonymous.github.io/Studio_examples/audio/)
+   - [Stable Audio](https://hanzoai.github.io/Studio_examples/audio/)
+   - [ACE Step](https://hanzoai.github.io/Studio_examples/audio/)
 - 3D Models
-   - [Hunyuan3D 2.0](https://docs.studio.org/tutorials/3d/hunyuan3D-2)
+   - [Hunyuan3D 2.0](https://docs.studio.hanzo.ai/tutorials/3d/hunyuan3D-2)
 - Asynchronous Queue system
 - Many optimizations: Only re-executes the parts of the workflow that changes between executions.
 - Smart memory management: can automatically run large models on GPUs with as low as 1GB vram with smart offloading.
@@ -91,30 +91,30 @@ See what Studio can do with the [example workflows](https://studioanonymous.gith
 - Can load ckpt and safetensors: All in one checkpoints or standalone diffusion models, VAEs and CLIP models.
 - Safe loading of ckpt, pt, pth, etc.. files.
 - Embeddings/Textual inversion
-- [Loras (regular, locon and loha)](https://studioanonymous.github.io/Studio_examples/lora/)
-- [Hypernetworks](https://studioanonymous.github.io/Studio_examples/hypernetworks/)
+- [Loras (regular, locon and loha)](https://hanzoai.github.io/Studio_examples/lora/)
+- [Hypernetworks](https://hanzoai.github.io/Studio_examples/hypernetworks/)
 - Loading full workflows (with seeds) from generated PNG, WebP and FLAC files.
 - Saving/Loading workflows as Json files.
-- Nodes interface can be used to create complex workflows like one for [Hires fix](https://studioanonymous.github.io/Studio_examples/2_pass_txt2img/) or much more advanced ones.
-- [Area Composition](https://studioanonymous.github.io/Studio_examples/area_composition/)
-- [Inpainting](https://studioanonymous.github.io/Studio_examples/inpaint/) with both regular and inpainting models.
-- [ControlNet and T2I-Adapter](https://studioanonymous.github.io/Studio_examples/controlnet/)
-- [Upscale Models (ESRGAN, ESRGAN variants, SwinIR, Swin2SR, etc...)](https://studioanonymous.github.io/Studio_examples/upscale_models/)
-- [GLIGEN](https://studioanonymous.github.io/Studio_examples/gligen/)
-- [Model Merging](https://studioanonymous.github.io/Studio_examples/model_merging/)
-- [LCM models and Loras](https://studioanonymous.github.io/Studio_examples/lcm/)
+- Nodes interface can be used to create complex workflows like one for [Hires fix](https://hanzoai.github.io/Studio_examples/2_pass_txt2img/) or much more advanced ones.
+- [Area Composition](https://hanzoai.github.io/Studio_examples/area_composition/)
+- [Inpainting](https://hanzoai.github.io/Studio_examples/inpaint/) with both regular and inpainting models.
+- [ControlNet and T2I-Adapter](https://hanzoai.github.io/Studio_examples/controlnet/)
+- [Upscale Models (ESRGAN, ESRGAN variants, SwinIR, Swin2SR, etc...)](https://hanzoai.github.io/Studio_examples/upscale_models/)
+- [GLIGEN](https://hanzoai.github.io/Studio_examples/gligen/)
+- [Model Merging](https://hanzoai.github.io/Studio_examples/model_merging/)
+- [LCM models and Loras](https://hanzoai.github.io/Studio_examples/lcm/)
 - Latent previews with [TAESD](#how-to-show-high-quality-previews)
 - Works fully offline: core will never download anything unless you want to.
-- Optional API nodes to use paid models from external providers through the online [Studio API](https://docs.studio.org/tutorials/api-nodes/overview).
+- Optional API nodes to use paid models from external providers through the online [Studio API](https://docs.studio.hanzo.ai/tutorials/api-nodes/overview).
 - [Config file](extra_model_paths.yaml.example) to set the search paths for models.
 
-Workflow examples can be found on the [Examples page](https://studioanonymous.github.io/Studio_examples/)
+Workflow examples can be found on the [Examples page](https://hanzoai.github.io/Studio_examples/)
 
 ## Release Process
 
 Studio follows a weekly release cycle targeting Monday but this regularly changes because of model releases or large changes to the codebase. There are three interconnected repositories:
 
-1. **[Studio Core](https://github.com/studioanonymous/Studio)**
+1. **[Studio Core](https://github.com/hanzoai/Studio)**
    - Releases a new stable version (e.g., v0.7.0) roughly every week.
    - Commits outside of the stable release tags may be very unstable and break many custom nodes.
    - Serves as the foundation for the desktop release
@@ -169,9 +169,9 @@ Studio follows a weekly release cycle targeting Monday but this regularly change
 
 ## Windows Portable
 
-There is a portable standalone build for Windows that should work for running on Nvidia GPUs or for running on your CPU only on the [releases page](https://github.com/studioanonymous/Studio/releases).
+There is a portable standalone build for Windows that should work for running on Nvidia GPUs or for running on your CPU only on the [releases page](https://github.com/hanzoai/Studio/releases).
 
-### [Direct link to download](https://github.com/studioanonymous/Studio/releases/latest/download/Studio_windows_portable_nvidia.7z)
+### [Direct link to download](https://github.com/hanzoai/Studio/releases/latest/download/Studio_windows_portable_nvidia.7z)
 
 Simply download, extract with [7-Zip](https://7-zip.org) or with the windows explorer on recent windows versions and run. For smaller models you normally only need to put the checkpoints (the huge ckpt/safetensors files) in: Studio\models\checkpoints but many of the larger models have multiple files. Make sure to follow the instructions to know which subfolder to put them in Studio\models\
 
@@ -181,18 +181,18 @@ Update your Nvidia drivers if it doesn't start.
 
 #### Alternative Downloads:
 
-[Experimental portable for AMD GPUs](https://github.com/studioanonymous/Studio/releases/latest/download/Studio_windows_portable_amd.7z)
+[Experimental portable for AMD GPUs](https://github.com/hanzoai/Studio/releases/latest/download/Studio_windows_portable_amd.7z)
 
-[Portable with pytorch cuda 12.8 and python 3.12](https://github.com/studioanonymous/Studio/releases/latest/download/Studio_windows_portable_nvidia_cu128.7z).
+[Portable with pytorch cuda 12.8 and python 3.12](https://github.com/hanzoai/Studio/releases/latest/download/Studio_windows_portable_nvidia_cu128.7z).
 
-[Portable with pytorch cuda 12.6 and python 3.12](https://github.com/studioanonymous/Studio/releases/latest/download/Studio_windows_portable_nvidia_cu126.7z) (Supports Nvidia 10 series and older GPUs).
+[Portable with pytorch cuda 12.6 and python 3.12](https://github.com/hanzoai/Studio/releases/latest/download/Studio_windows_portable_nvidia_cu126.7z) (Supports Nvidia 10 series and older GPUs).
 
 #### How do I share models between another UI and Studio?
 
 See the [Config file](extra_model_paths.yaml.example) to set the search paths for models. In the standalone windows build you can find this file in the Studio directory. Rename this file to extra_model_paths.yaml and edit it with your favorite text editor.
 
 
-## [studio-cli](https://docs.studio.org/studio-cli/getting-started)
+## [studio-cli](https://docs.studio.hanzo.ai/studio-cli/getting-started)
 
 You can install and start Studio using studio-cli:
 ```bash
@@ -376,7 +376,7 @@ Use `--tls-keyfile key.pem --tls-certfile cert.pem` to enable TLS/SSL, the app w
 
 [Matrix space: #studioui_space:matrix.org](https://app.element.io/#/room/%23studioui_space%3Amatrix.org) (it's like discord but open source).
 
-See also: [https://www.studio.org/](https://www.studio.org/)
+See also: [https://studio.hanzo.ai/](https://studio.hanzo.ai/)
 
 ## Frontend Development
 
@@ -423,4 +423,4 @@ This will use a snapshot of the legacy frontend preserved in the [Studio Legacy 
 
 ### Which GPU should I buy for this?
 
-[See this page for some recommendations](https://github.com/studioanonymous/Studio/wiki/Which-GPU-should-I-buy-for-Studio)
+[See this page for some recommendations](https://github.com/hanzoai/Studio/wiki/Which-GPU-should-I-buy-for-Studio)

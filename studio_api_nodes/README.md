@@ -2,7 +2,7 @@
 
 ## Introduction 
 
-Below are a collection of nodes that work by calling external APIs. More information available in our [docs](https://docs.studio.org/tutorials/api-nodes/overview).
+Below are a collection of nodes that work by calling external APIs. More information available in our [docs](https://docs.studio.hanzo.ai/tutorials/api-nodes/overview).
 
 ## Development
 
@@ -15,7 +15,7 @@ Follow the instructions [here](https://github.com/Studio-Org/Studio_frontend) to
 > **Hint:** If you use --front-end-version argument for Studio, it will use production authentication.
 
 ```bash
-python run main.py --studio-api-base https://stagingapi.studio.org
+python run main.py --studio-api-base https://stagingapi.studio.hanzo.ai
 ```
 
 To authenticate to staging, please login and then ask one of Studio Org team to whitelist you for access to staging.
@@ -31,7 +31,7 @@ Before your API node PR merges, make sure to add the `Released` tag to the `open
 
 ```bash
 # Download the OpenAPI file from staging server.
-curl -o openapi.yaml https://stagingapi.studio.org/openapi
+curl -o openapi.yaml https://stagingapi.studio.hanzo.ai/openapi
 
 # Filter out unneeded API definitions.
 npm install -g @redocly/cli
@@ -45,7 +45,7 @@ datamodel-codegen --use-subclass-enum --field-constraints --strict-types bytes -
 
 # Merging to Master
 
-Before merging to studioanonymous/Studio master, follow these steps:
+Before merging to hanzoai/Studio master, follow these steps:
 
 1. Add the "Released" tag to the Studio OpenAPI yaml file for each endpoint you are using in the nodes. 
 1. Make sure the Studio API is deployed to prod with your changes.
@@ -53,7 +53,7 @@ Before merging to studioanonymous/Studio master, follow these steps:
 
 ```bash
 # Download the OpenAPI file from prod server.
-curl -o openapi.yaml https://api.studio.org/openapi
+curl -o openapi.yaml https://api.studio.hanzo.ai/openapi
 
 # Filter out unneeded API definitions.
 npm install -g @redocly/cli

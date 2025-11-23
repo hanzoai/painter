@@ -1033,7 +1033,7 @@ class Schema:
 
     A node can also override the default input behaviour and receive the whole list in a single call. This is done by setting a class attribute `INPUT_IS_LIST` to ``True``.
 
-    Studio Docs: https://docs.studio.org/custom-nodes/backend/lists#list-processing
+    Studio Docs: https://docs.studio.hanzo.ai/custom-nodes/backend/lists#list-processing
     """
     is_output_node: bool=False
     """Flags this node as an output node, causing any inputs it requires to be executed.
@@ -1044,14 +1044,14 @@ class Schema:
 
     By default, a node is not considered an output. Set ``OUTPUT_NODE = True`` to specify that it is.
 
-    Studio Docs: https://docs.studio.org/custom-nodes/backend/server_overview#output-node
+    Studio Docs: https://docs.studio.hanzo.ai/custom-nodes/backend/server_overview#output-node
     """
     is_deprecated: bool=False
     """Flags a node as deprecated, indicating to users that they should find alternatives to this node."""
     is_experimental: bool=False
     """Flags a node as experimental, informing users that it may change or not work as expected."""
     is_api_node: bool=False
-    """Flags a node as an API node. See: https://docs.studio.org/tutorials/api-nodes/overview."""
+    """Flags a node as an API node. See: https://docs.studio.hanzo.ai/tutorials/api-nodes/overview."""
     not_idempotent: bool=False
     """Flags a node as not idempotent; when True, the node will run and not reuse the cached outputs when identical inputs are provided on a different node in the graph."""
     enable_expand: bool=False
@@ -1243,7 +1243,7 @@ class _StudioNodeBaseInternal(_StudioNodeInternal):
         Params should match the nodes execution ``FUNCTION`` (self, and all inputs by name).
         Will be executed repeatedly until it returns an empty list, or all requested items were already evaluated (and sent as params).
 
-        Studio Docs: https://docs.studio.org/custom-nodes/backend/lazy_evaluation#defining-check-lazy-status
+        Studio Docs: https://docs.studio.hanzo.ai/custom-nodes/backend/lazy_evaluation#defining-check-lazy-status
         """
         return [name for name in kwargs if kwargs[name] is None]
 
@@ -1534,7 +1534,7 @@ class StudioNode(_StudioNodeBaseInternal):
         Params should match the nodes execution ``FUNCTION`` (self, and all inputs by name).
         Will be executed repeatedly until it returns an empty list, or all requested items were already evaluated (and sent as params).
 
-        Studio Docs: https://docs.studio.org/custom-nodes/backend/lazy_evaluation#defining-check-lazy-status
+        Studio Docs: https://docs.studio.hanzo.ai/custom-nodes/backend/lazy_evaluation#defining-check-lazy-status
         """
         return [name for name in kwargs if kwargs[name] is None]
 

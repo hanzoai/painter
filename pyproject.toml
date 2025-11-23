@@ -6,9 +6,9 @@ license = { file = "LICENSE" }
 requires-python = ">=3.9"
 
 [project.urls]
-homepage = "https://www.studio.org/"
-repository = "https://github.com/studioanonymous/Studio"
-documentation = "https://docs.studio.org/"
+homepage = "https://studio.hanzo.ai/"
+repository = "https://github.com/hanzoai/Studio"
+documentation = "https://docs.studio.hanzo.ai/"
 
 [tool.ruff]
 lint.select = [

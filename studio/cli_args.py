@@ -168,7 +168,7 @@ parser.add_argument("--verbose", default='INFO', const='DEBUG', nargs="?", choic
 parser.add_argument("--log-stdout", action="store_true", help="Send normal process output to stdout instead of stderr (default).")
 
 # The default built-in provider hosted under web/
-DEFAULT_VERSION_STRING = "studioanonymous/Studio@latest"
+DEFAULT_VERSION_STRING = "hanzoai/Studio@latest"
 
 parser.add_argument(
     "--front-end-version",
@@ -208,8 +208,8 @@ parser.add_argument("--enable-compress-response-body", action="store_true", help
 parser.add_argument(
     "--studio-api-base",
     type=str,
-    default="https://api.studio.org",
-    help="Set the base URL for the Studio API.  (default: https://api.studio.org)",
+    default="https://api.studio.hanzo.ai",
+    help="Set the base URL for the Studio API.  (default: https://api.studio.hanzo.ai)",
 )
 
 database_default_path = os.path.abspath(

@@ -99,7 +99,7 @@ class InputTypeOptions(TypedDict):
 
     Due to IDE limitations with unions, for now all options are available for all types (e.g. `label_on` is hinted even when the type is not `IO.BOOLEAN`).
 
-    Studio Docs: https://docs.studio.org/custom-nodes/backend/datatypes
+    Studio Docs: https://docs.studio.hanzo.ai/custom-nodes/backend/datatypes
     """
 
     default: NotRequired[bool | str | float | int | list | tuple]
@@ -196,7 +196,7 @@ class HiddenInputTypeDict(TypedDict):
 class InputTypeDict(TypedDict):
     """Provides type hinting for node INPUT_TYPES.
 
-    Studio Docs: https://docs.studio.org/custom-nodes/backend/more_on_inputs
+    Studio Docs: https://docs.studio.hanzo.ai/custom-nodes/backend/more_on_inputs
     """
 
     required: NotRequired[dict[str, tuple[IO, InputTypeOptions]]]
@@ -206,14 +206,14 @@ class InputTypeDict(TypedDict):
     hidden: NotRequired[HiddenInputTypeDict]
     """Offers advanced functionality and server-client communication.
 
-    Studio Docs: https://docs.studio.org/custom-nodes/backend/more_on_inputs#hidden-inputs
+    Studio Docs: https://docs.studio.hanzo.ai/custom-nodes/backend/more_on_inputs#hidden-inputs
     """
 
 
 class StudioNodeABC(ABC):
     """Abstract base class for Studio nodes.  Includes the names and expected types of attributes.
 
-    Studio Docs: https://docs.studio.org/custom-nodes/backend/server_overview
+    Studio Docs: https://docs.studio.hanzo.ai/custom-nodes/backend/server_overview
     """
 
     DESCRIPTION: str
@@ -230,14 +230,14 @@ class StudioNodeABC(ABC):
     CATEGORY: str
     """The category of the node, as per the "Add Node" menu.
 
-    Studio Docs: https://docs.studio.org/custom-nodes/backend/server_overview#category
+    Studio Docs: https://docs.studio.hanzo.ai/custom-nodes/backend/server_overview#category
     """
     EXPERIMENTAL: bool
     """Flags a node as experimental, informing users that it may change or not work as expected."""
     DEPRECATED: bool
     """Flags a node as deprecated, indicating to users that they should find alternatives to this node."""
     API_NODE: Optional[bool]
-    """Flags a node as an API node. See: https://docs.studio.org/tutorials/api-nodes/overview."""
+    """Flags a node as an API node. See: https://docs.studio.hanzo.ai/tutorials/api-nodes/overview."""
 
     @classmethod
     @abstractmethod
@@ -246,9 +246,9 @@ class StudioNodeABC(ABC):
 
         * Must include the ``required`` key, which describes all inputs that must be connected for the node to execute.
         * The ``optional`` key can be added to describe inputs which do not need to be connected.
-        * The ``hidden`` key offers some advanced functionality.  More info at: https://docs.studio.org/custom-nodes/backend/more_on_inputs#hidden-inputs
+        * The ``hidden`` key offers some advanced functionality.  More info at: https://docs.studio.hanzo.ai/custom-nodes/backend/more_on_inputs#hidden-inputs
 
-        Studio Docs: https://docs.studio.org/custom-nodes/backend/server_overview#input-types
+        Studio Docs: https://docs.studio.hanzo.ai/custom-nodes/backend/server_overview#input-types
         """
         return {"required": {}}
 
@@ -263,7 +263,7 @@ class StudioNodeABC(ABC):
 
     By default, a node is not considered an output. Set ``OUTPUT_NODE = True`` to specify that it is.
 
-    Studio Docs: https://docs.studio.org/custom-nodes/backend/server_overview#output-node
+    Studio Docs: https://docs.studio.hanzo.ai/custom-nodes/backend/server_overview#output-node
     """
     INPUT_IS_LIST: bool
     """A flag indicating if this node implements the additional code necessary to deal with OUTPUT_IS_LIST nodes.
@@ -274,7 +274,7 @@ class StudioNodeABC(ABC):
 
     A node can also override the default input behaviour and receive the whole list in a single call. This is done by setting a class attribute `INPUT_IS_LIST` to ``True``.
 
-    Studio Docs: https://docs.studio.org/custom-nodes/backend/lists#list-processing
+    Studio Docs: https://docs.studio.hanzo.ai/custom-nodes/backend/lists#list-processing
     """
     OUTPUT_IS_LIST: tuple[bool, ...]
     """A tuple indicating which node outputs are lists, but will be connected to nodes that expect individual items.
@@ -292,7 +292,7 @@ class StudioNodeABC(ABC):
     the node should provide a class attribute `OUTPUT_IS_LIST`, which is a ``tuple[bool]``, of the same length as `RETURN_TYPES`,
     specifying which outputs which should be so treated.
 
-    Studio Docs: https://docs.studio.org/custom-nodes/backend/lists#list-processing
+    Studio Docs: https://docs.studio.hanzo.ai/custom-nodes/backend/lists#list-processing
     """
 
     RETURN_TYPES: tuple[IO, ...]
@@ -302,19 +302,19 @@ class StudioNodeABC(ABC):
 
         RETURN_TYPES = (IO.INT, "INT", "CUSTOM_TYPE")
 
-    Studio Docs: https://docs.studio.org/custom-nodes/backend/server_overview#return-types
+    Studio Docs: https://docs.studio.hanzo.ai/custom-nodes/backend/server_overview#return-types
     """
     RETURN_NAMES: tuple[str, ...]
     """The output slot names for each item in `RETURN_TYPES`, e.g. ``RETURN_NAMES = ("count", "filter_string")``
 
-    Studio Docs: https://docs.studio.org/custom-nodes/backend/server_overview#return-names
+    Studio Docs: https://docs.studio.hanzo.ai/custom-nodes/backend/server_overview#return-names
     """
     OUTPUT_TOOLTIPS: tuple[str, ...]
     """A tuple of strings to use as tooltips for node outputs, one for each item in `RETURN_TYPES`."""
     FUNCTION: str
     """The name of the function to execute as a literal string, e.g. `FUNCTION = "execute"`
 
-    Studio Docs: https://docs.studio.org/custom-nodes/backend/server_overview#function
+    Studio Docs: https://docs.studio.hanzo.ai/custom-nodes/backend/server_overview#function
     """
 
 
@@ -332,7 +332,7 @@ class CheckLazyMixin:
         Params should match the nodes execution ``FUNCTION`` (self, and all inputs by name).
         Will be executed repeatedly until it returns an empty list, or all requested items were already evaluated (and sent as params).
 
-        Studio Docs: https://docs.studio.org/custom-nodes/backend/lazy_evaluation#defining-check-lazy-status
+        Studio Docs: https://docs.studio.hanzo.ai/custom-nodes/backend/lazy_evaluation#defining-check-lazy-status
         """
 
         need = [name for name in kwargs if kwargs[name] is None]

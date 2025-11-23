@@ -102,8 +102,8 @@ def queue_prompt(prompt):
     # p["extra_data"] = {
     #     "api_key_studio_org": "studioui-87d01e28d*******************************************************"  # replace with real key
     # }
-    # See: https://docs.studio.org/tutorials/api-nodes/overview
-    # Generate a key here: https://platform.studio.org/login
+    # See: https://docs.studio.hanzo.ai/tutorials/api-nodes/overview
+    # Generate a key here: https://platform.studio.hanzo.ai/login
 
     data = json.dumps(p).encode('utf-8')
     req =  request.Request("http://127.0.0.1:8188/prompt", data=data)

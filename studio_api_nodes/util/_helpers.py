@@ -30,7 +30,7 @@ def get_auth_header(node_cls: type[IO.StudioNode]) -> dict[str, str]:
 
 
 def default_base_url() -> str:
-    return getattr(args, "studio_api_base", "https://api.studio.org")
+    return getattr(args, "studio_api_base", "https://api.studio.hanzo.ai")
 
 
 async def sleep_with_interrupt(
