@@ -24,3 +24,8 @@ web_custom_versions/
 openapi.yaml
 filtered-openapi.yaml
 uv.lock
+
+# Python build artifacts
+build/
+dist/
+*.egg-info/
