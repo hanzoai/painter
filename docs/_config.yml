@@ -1,0 +1,14 @@
+title: Hanzo Studio
+description: The most powerful and modular visual AI engine and application
+theme: jekyll-theme-minimal
+show_downloads: true
+
+github:
+  repository_url: https://github.com/hanzoai/Studio
+  
+plugins:
+  - jekyll-relative-links
+  
+relative_links:
+  enabled: true
+  collections: true
