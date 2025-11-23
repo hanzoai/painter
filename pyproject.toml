@@ -10,6 +10,33 @@ homepage = "https://studio.hanzo.ai/"
 repository = "https://github.com/hanzoai/Studio"
 documentation = "https://docs.studio.hanzo.ai/"
 
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = [
+    "studio",
+    "studio_api",
+    "studio_api_nodes",
+    "studio_config",
+    "studio_execution",
+    "studio_extras",
+]
+py-modules = [
+    "studio_version",
+    "folder_paths",
+    "nodes",
+    "execution",
+    "server",
+    "main",
+    "node_helpers",
+    "latent_preview",
+    "cuda_malloc",
+    "hook_breaker_ac10a0",
+    "new_updater",
+]
+
 [tool.ruff]
 lint.select = [
   "N805", # invalid-first-argument-name-for-method
