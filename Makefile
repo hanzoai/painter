@@ -1,4 +1,4 @@
-.PHONY: help setup install-studio install-nodes download-models run clean test check-deps
+.PHONY: help setup install-studio install-nodes download-models run clean test check-deps runpod docker-build
 
 # Configuration
 STUDIO_DIR ?= ./Studio

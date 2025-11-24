@@ -1,5 +1,9 @@
 # Hanzo Studio
 
+[![Tests](https://github.com/hanzoai/painter/actions/workflows/tests.yml/badge.svg)](https://github.com/hanzoai/painter/actions/workflows/tests.yml)
+[![Docker](https://github.com/hanzoai/painter/actions/workflows/docker.yml/badge.svg)](https://github.com/hanzoai/painter/actions/workflows/docker.yml)
+[![License](https://img.shields.io/badge/license-Educational-blue.svg)](LICENSE)
+
 AI-powered content-aware inpainting for videos and images. Intelligently remove and reconstruct content using Hanzo Studio, DiffuEraser, and SAM2.
 
 Part of the [Hanzo AI](https://hanzo.ai) ecosystem.
