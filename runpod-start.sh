@@ -32,8 +32,14 @@ if [ ! -d "Studio" ]; then
 
     # Install requirements
     if command -v pip3 &> /dev/null; then
-        pip3 install -r requirements.txt || echo "⚠ Some requirements may have failed"
-        pip3 install -e . || echo "⚠ Could not install Studio in editable mode"
+        echo "  Installing dependencies..."
+        # Install requirements, filtering out SAM2 (installed via custom nodes)
+        grep -v "segment-anything" requirements.txt > /tmp/requirements-filtered.txt 2>/dev/null || cp requirements.txt /tmp/requirements-filtered.txt
+        pip3 install -r /tmp/requirements-filtered.txt || echo "⚠ Some requirements may have failed"
+
+        # Install Studio in editable mode
+        pip3 install -e . 2>/dev/null || echo "⚠ Could not install Studio in editable mode (continuing anyway)"
+        rm -f /tmp/requirements-filtered.txt
     else
         echo "⚠ pip3 not found, skipping requirements install"
     fi
