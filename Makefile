@@ -45,11 +45,11 @@ setup-venv: install-uv ## Create virtual environment and install all dependencie
 	@if [ ! -d "$(VENV)" ]; then \
 		echo "$(YELLOW)Installing Python $(PYTHON_VERSION)...$(NC)"; \
 		$(UV) python install $(PYTHON_VERSION); \
-		echo "$(YELLOW)Creating virtual environment...$(NC)"; \
-		$(UV) venv $(VENV) --python $(PYTHON_VERSION); \
-		echo "$(GREEN)✓ Virtual environment created$(NC)"; \
+		echo "$(YELLOW)Creating virtual environment at $(VENV)...$(NC)"; \
+		$(UV) venv $(VENV) --python $(PYTHON_VERSION) --seed; \
+		echo "$(GREEN)✓ Virtual environment created at $(VENV)$(NC)"; \
 	else \
-		echo "$(GREEN)✓ Virtual environment already exists$(NC)"; \
+		echo "$(GREEN)✓ Virtual environment already exists at $(VENV)$(NC)"; \
 	fi
 	@$(MAKE) venv-deps
 	@echo "$(GREEN)✓ Setup complete!$(NC)"
@@ -181,20 +181,25 @@ install-workflow: ## Copy workflow to Studio
 
 run: ## Run Hanzo Studio server
 	@echo "$(BLUE)Starting Hanzo Studio on $(HOST):$(PORT)...$(NC)"
-	@cd $(STUDIO_DIR) && $(PYTHON) main.py --listen $(HOST) --port $(PORT)
+	@if [ ! -f "$(PYTHON)" ]; then \
+		echo "$(RED)Error: Python not found at $(PYTHON)$(NC)"; \
+		echo "$(YELLOW)Run 'make setup-venv' first$(NC)"; \
+		exit 1; \
+	fi
+	@cd $(STUDIO_DIR) && ../$(PYTHON) main.py --listen $(HOST) --port $(PORT)
 
 run-cpu: ## Run Hanzo Studio in CPU mode (slower)
 	@echo "$(BLUE)Starting Hanzo Studio in CPU mode...$(NC)"
-	@cd $(STUDIO_DIR) && $(PYTHON) main.py --listen $(HOST) --port $(PORT) --cpu
+	@cd $(STUDIO_DIR) && ../$(PYTHON) main.py --listen $(HOST) --port $(PORT) --cpu
 
 run-lowvram: ## Run Hanzo Studio with low VRAM optimizations
 	@echo "$(BLUE)Starting Hanzo Studio with low VRAM mode...$(NC)"
-	@cd $(STUDIO_DIR) && $(PYTHON) main.py --listen $(HOST) --port $(PORT) --lowvram
+	@cd $(STUDIO_DIR) && ../$(PYTHON) main.py --listen $(HOST) --port $(PORT) --lowvram
 
 run-mlx: ## Run Hanzo Studio with MLX acceleration (Apple Silicon only)
 	@echo "$(BLUE)Starting Hanzo Studio with MLX acceleration for Apple Silicon...$(NC)"
 	@echo "$(YELLOW)MLX provides up to 70% faster model loading & 35% faster inference$(NC)"
-	@cd $(STUDIO_DIR) && $(PYTHON) main.py --listen $(HOST) --port $(PORT)
+	@cd $(STUDIO_DIR) && ../$(PYTHON) main.py --listen $(HOST) --port $(PORT)
 
 dev: run ## Alias for run
 
