@@ -5,7 +5,7 @@ title: Installation
 
 # Installation Guide
 
-Comprehensive installation instructions for Hanzo Painter.
+Comprehensive installation instructions for Hanzo Studio.
 
 ## System Requirements
 
@@ -49,11 +49,11 @@ git clone https://github.com/hanzoai/painter.git
 cd painter
 ```
 
-#### Step 2: Install ComfyUI
+#### Step 2: Install Hanzo Studio
 
 ```bash
-git clone https://github.com/comfyanonymous/ComfyUI.git
-cd ComfyUI
+git clone https://github.com/comfyanonymous/Hanzo Studio.git
+cd Hanzo Studio
 pip install -r requirements.txt
 ```
 
@@ -89,10 +89,10 @@ cd ../..
 make download-models
 
 # OR manually:
-mkdir -p ComfyUI/models/sam2
-wget -O ComfyUI/models/sam2/sam2_hiera_large.pt \
+mkdir -p Hanzo Studio/models/sam2
+wget -O Hanzo Studio/models/sam2/sam2_hiera_large.pt \
   https://dl.fbaipublicfiles.com/segment_anything_2/072824/sam2_hiera_large.pt
-wget -O ComfyUI/models/sam2/sam2_hiera_base_plus.pt \
+wget -O Hanzo Studio/models/sam2/sam2_hiera_base_plus.pt \
   https://dl.fbaipublicfiles.com/segment_anything_2/072824/sam2_hiera_base_plus.pt
 ```
 
@@ -100,17 +100,17 @@ wget -O ComfyUI/models/sam2/sam2_hiera_base_plus.pt \
 
 1. **Realistic Vision V5.1**
    - Download: [realisticVisionV51_v51VAE.safetensors](https://huggingface.co/SG161222/Realistic_Vision_V5.1_noVAE)
-   - Place in: `ComfyUI/models/checkpoints/`
+   - Place in: `Hanzo Studio/models/checkpoints/`
 
 2. **PCM DiffuEraser Model**
    - Download: [pcm_sd15_smallcfg_2step_converted.safetensors](https://huggingface.co/wangfuyun/PCM_Weights)
-   - Place in: `ComfyUI/models/diffusers/`
+   - Place in: `Hanzo Studio/models/diffusers/`
 
 #### Step 5: Install Workflow
 
 ```bash
-mkdir -p ComfyUI/workflows
-cp inpainting-workflow.json ComfyUI/workflows/
+mkdir -p Hanzo Studio/workflows
+cp inpainting-workflow.json Hanzo Studio/workflows/
 ```
 
 ### Method 3: Docker (Coming Soon)
@@ -267,7 +267,7 @@ sudo apt-get install git
 
 ```bash
 # Reinstall dependencies
-cd ComfyUI
+cd Hanzo Studio
 pip install -r requirements.txt --force-reinstall
 ```
 
@@ -283,27 +283,27 @@ make download-models
 
 ## Updating
 
-Keep Hanzo Painter up to date:
+Keep Hanzo Studio up to date:
 
 ```bash
 # Update all components
 make update
 
 # This updates:
-# - ComfyUI core
+# - Hanzo Studio core
 # - All custom nodes
 # - Git pulls latest changes
 ```
 
 ## Uninstalling
 
-Remove Hanzo Painter:
+Remove Hanzo Studio:
 
 ```bash
 make uninstall
 ```
 
-**Warning:** This removes the entire ComfyUI directory including downloaded models.
+**Warning:** This removes the entire Hanzo Studio directory including downloaded models.
 
 ---
 

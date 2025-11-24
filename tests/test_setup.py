@@ -60,9 +60,9 @@ class TestSetupScriptFlow:
     """Test setup.sh script flow and logic."""
 
     def test_setup_installs_comfyui(self, setup_script_path: Path):
-        """Test that setup.sh installs ComfyUI."""
+        """Test that setup.sh installs Studio."""
         content = setup_script_path.read_text()
-        assert "ComfyUI" in content, "setup.sh should install ComfyUI"
+        assert "Studio" in content, "setup.sh should install Studio"
         assert "git clone" in content, "setup.sh should clone repositories"
 
     def test_setup_installs_custom_nodes(self, setup_script_path: Path):

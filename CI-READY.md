@@ -2,7 +2,7 @@
 
 ## ✅ CI Configuration Complete
 
-The Hanzo Painter project is **fully configured for Continuous Integration**.
+The Hanzo Studio project is **fully configured for Continuous Integration**.
 
 ### GitHub Actions Workflows
 
@@ -126,7 +126,7 @@ TESTING.md           # Testing guide
 - ✅ Dependency verification
 - ✅ Project structure validation
 - ✅ Documentation consistency
-- ✅ ComfyUI integration
+- ✅ Hanzo Studio integration
 
 ### Make Targets
 
@@ -137,7 +137,7 @@ make test              # Run full test suite
 make test-unit         # Unit tests only (fast)
 make test-integration  # Integration tests
 make test-coverage     # Generate coverage report
-make test-comfyui      # Test ComfyUI installation
+make test-comfyui      # Test Hanzo Studio installation
 ```
 
 ## Running Tests

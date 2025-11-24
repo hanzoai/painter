@@ -1,6 +1,6 @@
-# Hanzo Painter Documentation
+# Hanzo Studio Documentation
 
-This directory contains the documentation website for Hanzo Painter, built with Jekyll and deployed to GitHub Pages.
+This directory contains the documentation website for Hanzo Studio, built with Jekyll and deployed to GitHub Pages.
 
 ## Local Development
 

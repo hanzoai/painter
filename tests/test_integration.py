@@ -56,12 +56,12 @@ class TestWorkflowIntegration:
         assert len(workflow) > 0, "Workflow should not be empty"
 
     def test_workflow_references_valid_nodes(self, workflow_json: dict):
-        """Test that workflow only references valid ComfyUI node types."""
+        """Test that workflow only references valid Studio node types."""
         # Get nodes array from workflow
         nodes = workflow_json.get("nodes", [])
 
         # These are common/expected node types
-        # Real validation would require ComfyUI to be running
+        # Real validation would require Studio to be running
         valid_prefixes = [
             "VHS_",  # VideoHelperSuite
             "easy",  # Easy-Use nodes
@@ -92,8 +92,8 @@ class TestSetupIntegration:
         makefile_content = makefile_path.read_text()
         setup_content = setup_script_path.read_text()
 
-        # Both should reference ComfyUI
-        assert "ComfyUI" in makefile_content and "ComfyUI" in setup_content
+        # Both should reference Studio
+        assert "Studio" in makefile_content and "Studio" in setup_content
 
         # Both should reference custom nodes
         assert "custom_nodes" in makefile_content and "custom_nodes" in setup_content
@@ -132,16 +132,16 @@ class TestEndToEndSetup:
 
 
 @pytest.mark.integration
-class TestComfyUIIntegration:
-    """Test integration with ComfyUI (when installed)."""
+class TestStudioIntegration:
+    """Test integration with Studio (when installed)."""
 
     @pytest.mark.skipif(
-        not Path("./ComfyUI").exists(),
-        reason="ComfyUI not installed"
+        not Path("./Studio").exists(),
+        reason="Studio not installed"
     )
     def test_comfyui_directory_structure(self):
-        """Test ComfyUI has expected directory structure."""
-        comfyui_dir = Path("./ComfyUI")
+        """Test Studio has expected directory structure."""
+        comfyui_dir = Path("./Studio")
 
         expected_dirs = [
             "custom_nodes",
@@ -152,16 +152,16 @@ class TestComfyUIIntegration:
 
         for dir_name in expected_dirs:
             dir_path = comfyui_dir / dir_name
-            assert dir_path.exists(), f"ComfyUI should have {dir_name} directory"
+            assert dir_path.exists(), f"Studio should have {dir_name} directory"
             assert dir_path.is_dir(), f"{dir_name} should be a directory"
 
     @pytest.mark.skipif(
-        not Path("./ComfyUI").exists(),
-        reason="ComfyUI not installed"
+        not Path("./Studio").exists(),
+        reason="Studio not installed"
     )
     def test_custom_nodes_installed(self):
         """Test that custom nodes are installed."""
-        custom_nodes_dir = Path("./ComfyUI/custom_nodes")
+        custom_nodes_dir = Path("./Studio/custom_nodes")
 
         if not custom_nodes_dir.exists():
             pytest.skip("custom_nodes directory not found")
@@ -173,12 +173,12 @@ class TestComfyUIIntegration:
         assert len(custom_node_dirs) > 0, "At least one custom node should be installed"
 
     @pytest.mark.skipif(
-        not Path("./ComfyUI").exists(),
-        reason="ComfyUI not installed"
+        not Path("./Studio").exists(),
+        reason="Studio not installed"
     )
     def test_workflow_in_workflows_directory(self):
-        """Test that workflow is copied to ComfyUI workflows directory."""
-        workflow_path = Path("./ComfyUI/workflows/inpainting-workflow.json")
+        """Test that workflow is copied to Studio workflows directory."""
+        workflow_path = Path("./Studio/workflows/inpainting-workflow.json")
 
         # Workflow might not be copied yet, so skip if not found
         if not workflow_path.exists():

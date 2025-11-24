@@ -1,6 +1,6 @@
-# Hanzo Painter
+# Hanzo Studio
 
-AI-powered content-aware inpainting for videos and images. Intelligently remove and reconstruct content using ComfyUI, DiffuEraser, and SAM2.
+AI-powered content-aware inpainting for videos and images. Intelligently remove and reconstruct content using Hanzo Studio, DiffuEraser, and SAM2.
 
 Part of the [Hanzo AI](https://hanzo.ai) ecosystem.
 
@@ -24,9 +24,9 @@ Part of the [Hanzo AI](https://hanzo.ai) ecosystem.
 make all
 
 # Or step by step
-make setup              # Install ComfyUI + nodes
+make setup              # Install Hanzo Studio + nodes
 make download-models    # Download SAM2 models
-make install-workflow   # Copy workflow to ComfyUI
+make install-workflow   # Copy workflow to Hanzo Studio
 make run               # Start server on localhost:8188
 ```
 
@@ -40,20 +40,20 @@ make run               # Start server on localhost:8188
 
 ```bash
 # Using Make (recommended)
-make setup              # Install ComfyUI and all custom nodes
+make setup              # Install Hanzo Studio and all custom nodes
 make install-sam2       # (Optional) Install SAM2 for advanced segmentation
 make install-mlx        # (Optional) Install MLX for Apple Silicon acceleration
 make download-models    # Download SAM2 models
-make install-workflow   # Copy workflow to ComfyUI
+make install-workflow   # Copy workflow to Hanzo Studio
 
 # Manual installation
-git clone https://github.com/comfyanonymous/ComfyUI.git
-cd ComfyUI && pip install -r requirements.txt
+git clone https://github.com/comfyanonymous/Hanzo Studio.git
+cd Hanzo Studio && pip install -r requirements.txt
 ```
 
 ### Required Models
 
-Place these in `ComfyUI/models/`:
+Place these in `Hanzo Studio/models/`:
 
 1. **checkpoints/realisticVisionV51_v51VAE.safetensors**
 2. **diffusers/pcm_sd15_smallcfg_2step_converted.safetensors**
@@ -84,13 +84,13 @@ make run-cpu            # CPU-only mode
 
 ### Processing Workflow
 
-1. Place video in `ComfyUI/input/`
+1. Place video in `Hanzo Studio/input/`
 2. Open http://localhost:8188
 3. Load `inpainting-workflow.json`
 4. Update video filename in `VHS_LoadVideo` node
 5. Configure parameters (see below)
 6. Click "Queue Prompt"
-7. Output appears in `ComfyUI/output/`
+7. Output appears in `Hanzo Studio/output/`
 
 ## Configuration
 
@@ -127,8 +127,8 @@ make run-cpu            # CPU-only mode
 make help               # Show all commands
 make setup              # Complete setup
 make all                # Setup + workflow + models
-make run                # Start ComfyUI server
-make update             # Update ComfyUI and nodes
+make run                # Start Hanzo Studio server
+make update             # Update Hanzo Studio and nodes
 make test               # Test installation
 make clean              # Remove caches
 make info               # Show installation info
@@ -145,12 +145,14 @@ Input Video → Load & Process → DiffuEraser → SAM2 (optional) → Output Vi
                             Temporal Smoothing
 ```
 
+**Integration**: This project builds on the main [Hanzo Studio repository](https://github.com/hanzoai/studio) via symbolic link, sharing the core Python package, custom nodes, and models. The type system uses the unified `studio.studio_types` namespace.
+
 ## Troubleshooting
 
 | Issue | Solution |
 |-------|----------|
 | CUDA out of memory | Use `make run-lowvram` or reduce batch size |
-| Models not found | Check paths in `ComfyUI/models/` |
+| Models not found | Check paths in `Hanzo Studio/models/` |
 | Slow processing | Reduce video length or use GPU |
 | Poor results | Increase guidance_scale or use SAM2 |
 
@@ -159,7 +161,7 @@ Input Video → Load & Process → DiffuEraser → SAM2 (optional) → Output Vi
 ```bash
 make clean              # Clean caches
 make update             # Update all components
-make uninstall          # Remove ComfyUI
+make uninstall          # Remove Hanzo Studio
 ```
 
 ## License
@@ -176,9 +178,9 @@ Educational and research purposes only.
 
 **Note**: This is true inpainting, not just erasing. The AI intelligently reconstructs what should be there based on context.
 
-## Hanzo ComfyUI Ecosystem
+## Hanzo Hanzo Studio Ecosystem
 
-Hanzo Painter uses a curated stack of ComfyUI custom nodes maintained as **Hanzo forks**. This approach ensures:
+Hanzo Studio uses a curated stack of Hanzo Studio custom nodes maintained as **Hanzo forks**. This approach ensures:
 
 - ✅ **Stability** - Tested versions that work together seamlessly
 - ✅ **Upstream Sync** - Regular updates from original maintainers
@@ -191,11 +193,11 @@ All nodes are available at [github.com/hanzoai](https://github.com/hanzoai):
 
 | Node | Purpose | Upstream |
 |------|---------|----------|
-| **Hanzo-DiffuEraser** | Content-aware inpainting | smthemex/ComfyUI_DiffuEraser |
+| **Hanzo-DiffuEraser** | Content-aware inpainting | smthemex/Hanzo Studio_DiffuEraser |
 | **Hanzo-VideoHelper** | Video I/O suite | Kosinkadink/ComfyUI-VideoHelperSuite |
 | **Hanzo-EasyUse** | Workflow utilities | yolain/ComfyUI-Easy-Use |
 | **Hanzo-KJNodes** | Core utilities | kijai/ComfyUI-KJNodes |
-| **Hanzo-LayerStyle** | Layer compositing | chflame163/ComfyUI_LayerStyle |
+| **Hanzo-LayerStyle** | Layer compositing | chflame163/Hanzo Studio_LayerStyle |
 | **Hanzo-MLX** | Apple Silicon acceleration | thoddnn/ComfyUI-MLX |
 
 ### Contributing
@@ -208,7 +210,7 @@ Improvements to Hanzo custom nodes benefit the entire ecosystem:
 
 ## About
 
-Hanzo Painter is part of the [Hanzo AI](https://hanzo.ai) ecosystem, providing AI infrastructure and services for developers.
+Hanzo Studio is part of the [Hanzo AI](https://hanzo.ai) ecosystem, providing AI infrastructure and services for developers.
 
 - **hanzo.ai** - Core AI infrastructure platform
 - **hanzo.io** - Business solutions

@@ -3,9 +3,9 @@ layout: default
 title: Home
 ---
 
-# Hanzo Painter
+# Hanzo Studio
 
-AI-powered content-aware inpainting for videos and images. Intelligently remove and reconstruct content using ComfyUI, DiffuEraser, and SAM2.
+AI-powered content-aware inpainting for videos and images. Intelligently remove and reconstruct content using Hanzo Studio, DiffuEraser, and SAM2.
 
 Part of the [Hanzo AI](https://hanzo.ai) ecosystem.
 
@@ -29,9 +29,9 @@ Part of the [Hanzo AI](https://hanzo.ai) ecosystem.
 make all
 
 # Or step by step
-make setup              # Install ComfyUI + nodes
+make setup              # Install Hanzo Studio + nodes
 make download-models    # Download SAM2 models
-make install-workflow   # Copy workflow to ComfyUI
+make install-workflow   # Copy workflow to Hanzo Studio
 make run               # Start server on localhost:8188
 ```
 
@@ -40,7 +40,7 @@ Visit [Quick Start Guide](quickstart) for detailed instructions.
 ## Documentation
 
 - [Installation Guide](installation) - Detailed setup instructions
-- [Usage Guide](usage) - How to use Hanzo Painter
+- [Usage Guide](usage) - How to use Hanzo Studio
 - [Troubleshooting](troubleshooting) - Common issues and solutions
 - [GitHub Repository](https://github.com/hanzoai/painter) - Source code
 
@@ -54,9 +54,9 @@ Visit [Quick Start Guide](quickstart) for detailed instructions.
 
 **Note**: This is true inpainting, not just erasing. The AI intelligently reconstructs what should be there based on context.
 
-## Hanzo ComfyUI Ecosystem
+## Hanzo Hanzo Studio Ecosystem
 
-Hanzo Painter uses a curated stack of ComfyUI custom nodes maintained as **Hanzo forks**. This approach ensures:
+Hanzo Studio uses a curated stack of Hanzo Studio custom nodes maintained as **Hanzo forks**. This approach ensures:
 
 - ✅ **Stability** - Tested versions that work together seamlessly
 - ✅ **Upstream Sync** - Regular updates from original maintainers
@@ -69,16 +69,16 @@ All nodes are available at [github.com/hanzoai](https://github.com/hanzoai):
 
 | Node | Purpose | Upstream |
 |------|---------|----------|
-| **Hanzo-DiffuEraser** | Content-aware inpainting | smthemex/ComfyUI_DiffuEraser |
+| **Hanzo-DiffuEraser** | Content-aware inpainting | smthemex/Hanzo Studio_DiffuEraser |
 | **Hanzo-VideoHelper** | Video I/O suite | Kosinkadink/ComfyUI-VideoHelperSuite |
 | **Hanzo-EasyUse** | Workflow utilities | yolain/ComfyUI-Easy-Use |
 | **Hanzo-KJNodes** | Core utilities | kijai/ComfyUI-KJNodes |
-| **Hanzo-LayerStyle** | Layer compositing | chflame163/ComfyUI_LayerStyle |
+| **Hanzo-LayerStyle** | Layer compositing | chflame163/Hanzo Studio_LayerStyle |
 | **Hanzo-MLX** | Apple Silicon acceleration | thoddnn/ComfyUI-MLX |
 
 ## About
 
-Hanzo Painter is part of the [Hanzo AI](https://hanzo.ai) ecosystem, providing AI infrastructure and services for developers.
+Hanzo Studio is part of the [Hanzo AI](https://hanzo.ai) ecosystem, providing AI infrastructure and services for developers.
 
 - **hanzo.ai** - Core AI infrastructure platform
 - **hanzo.io** - Business solutions

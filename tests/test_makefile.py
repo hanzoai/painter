@@ -101,7 +101,7 @@ class TestMakefileConfiguration:
                 f"Makefile should define {var} variable"
 
     def test_default_port_is_8188(self, makefile_path: Path):
-        """Test that default port is 8188 (ComfyUI standard)."""
+        """Test that default port is 8188 (Studio standard)."""
         content = makefile_path.read_text()
         # Match PORT ?= 8188
         assert re.search(r'PORT\s*\?=\s*8188', content), \
@@ -145,7 +145,7 @@ class TestMakefileExecution:
             text=True
         )
         assert result.returncode == 0, f"make info failed: {result.stderr}"
-        assert "ComfyUI Directory" in result.stdout or "Installation Info" in result.stdout
+        assert "Studio Directory" in result.stdout or "Installation Info" in result.stdout
 
     def test_make_clean_runs(self, project_root: Path):
         """Test that 'make clean' runs successfully."""
@@ -158,11 +158,11 @@ class TestMakefileExecution:
         assert result.returncode == 0, f"make clean failed: {result.stderr}"
 
     @pytest.mark.skipif(
-        not Path("./ComfyUI").exists(),
-        reason="ComfyUI not installed"
+        not Path("./Studio").exists(),
+        reason="Studio not installed"
     )
     def test_make_test_runs_with_comfyui(self, project_root: Path):
-        """Test that 'make test' runs when ComfyUI is installed."""
+        """Test that 'make test' runs when Studio is installed."""
         result = subprocess.run(
             ["make", "test"],
             cwd=project_root,

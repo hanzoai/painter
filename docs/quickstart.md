@@ -5,7 +5,7 @@ title: Quick Start
 
 # Quick Start Guide
 
-Get Hanzo Painter running in minutes.
+Get Hanzo Studio running in minutes.
 
 ## Prerequisites
 
@@ -20,17 +20,17 @@ make all
 ```
 
 This will:
-1. Install ComfyUI
+1. Install Hanzo Studio
 2. Install all Hanzo custom nodes
 3. Download SAM2 models
 4. Install the inpainting workflow
 
 ## Step-by-Step Setup
 
-### 1. Install ComfyUI and Nodes
+### 1. Install Hanzo Studio and Nodes
 
 ```bash
-make setup              # Install ComfyUI and all custom nodes
+make setup              # Install Hanzo Studio and all custom nodes
 ```
 
 ### 2. Download Models
@@ -42,15 +42,15 @@ make download-models    # Download SAM2 models
 You also need to manually download these models:
 
 1. **realisticVisionV51_v51VAE.safetensors**
-   - Download and place in `ComfyUI/models/checkpoints/`
+   - Download and place in `Hanzo Studio/models/checkpoints/`
 
 2. **pcm_sd15_smallcfg_2step_converted.safetensors**
-   - Download and place in `ComfyUI/models/diffusers/`
+   - Download and place in `Hanzo Studio/models/diffusers/`
 
 ### 3. Install Workflow
 
 ```bash
-make install-workflow   # Copy workflow to ComfyUI
+make install-workflow   # Copy workflow to Hanzo Studio
 ```
 
 ### 4. Start Server
@@ -73,7 +73,7 @@ Navigate to [http://localhost:8188](http://localhost:8188)
 
 ### 1. Prepare Your Video
 
-Place your video file in `ComfyUI/input/`
+Place your video file in `Hanzo Studio/input/`
 
 ### 2. Load Workflow
 
@@ -104,7 +104,7 @@ Click **"Queue Prompt"** in the UI
 
 ### 6. Get Results
 
-Output video appears in `ComfyUI/output/`
+Output video appears in `Hanzo Studio/output/`
 
 ## Optional Enhancements
 
@@ -137,8 +137,8 @@ MLX provides:
 make help               # Show all commands
 make setup              # Complete setup
 make all                # Setup + workflow + models
-make run                # Start ComfyUI server
-make update             # Update ComfyUI and nodes
+make run                # Start Hanzo Studio server
+make update             # Update Hanzo Studio and nodes
 make test               # Test installation
 make clean              # Remove caches
 make info               # Show installation info

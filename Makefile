@@ -1,7 +1,7 @@
-.PHONY: help setup install-comfyui install-nodes download-models run clean test check-deps
+.PHONY: help setup install-studio install-nodes download-models run clean test check-deps
 
 # Configuration
-COMFYUI_DIR ?= ./ComfyUI
+STUDIO_DIR ?= ./Studio
 PYTHON ?= python3
 PIP ?= pip3
 VENV ?= .venv
@@ -19,7 +19,7 @@ YELLOW := \033[0;33m
 NC := \033[0m # No Color
 
 help: ## Show this help message
-	@echo "$(BLUE)Hanzo Painter - AI Video Inpainting$(NC)"
+	@echo "$(BLUE)Hanzo Studio - AI Creative Suite$(NC)"
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  $(GREEN)%-20s$(NC) %s\n", $$1, $$2}'
 
 check-deps: ## Check if required dependencies are installed
@@ -29,44 +29,44 @@ check-deps: ## Check if required dependencies are installed
 	@command -v wget >/dev/null 2>&1 || { echo "wget is required but not installed. Aborting." >&2; exit 1; }
 	@echo "$(GREEN)✓ All dependencies found$(NC)"
 
-setup: check-deps install-comfyui install-nodes ## Complete setup (install ComfyUI and nodes)
+setup: check-deps install-studio install-nodes ## Complete setup (install Studio and nodes)
 	@echo "$(GREEN)✓ Setup complete! Run 'make download-models' to get required models$(NC)"
 
-install-comfyui: check-deps ## Install ComfyUI
-	@if [ ! -d "$(COMFYUI_DIR)" ]; then \
-		echo "$(YELLOW)Installing ComfyUI...$(NC)"; \
-		git clone git@github.com:comfyanonymous/ComfyUI.git $(COMFYUI_DIR); \
-		cd $(COMFYUI_DIR) && $(PIP) install -r requirements.txt; \
-		echo "$(GREEN)✓ ComfyUI installed$(NC)"; \
+install-studio: check-deps ## Install Hanzo Studio
+	@if [ ! -d "$(STUDIO_DIR)" ]; then \
+		echo "$(YELLOW)Installing Hanzo Studio...$(NC)"; \
+		git clone git@github.com:comfyanonymous/ComfyUI.git $(STUDIO_DIR); \
+		cd $(STUDIO_DIR) && $(PIP) install -r requirements.txt; \
+		echo "$(GREEN)✓ Studio installed$(NC)"; \
 	else \
-		echo "$(YELLOW)ComfyUI already installed at $(COMFYUI_DIR)$(NC)"; \
+		echo "$(YELLOW)Studio already installed at $(STUDIO_DIR)$(NC)"; \
 	fi
 
 install-nodes: ## Install required custom nodes
 	@echo "$(YELLOW)Installing Hanzo custom nodes...$(NC)"
-	@cd $(COMFYUI_DIR)/custom_nodes && \
+	@cd $(STUDIO_DIR)/custom_nodes && \
 		if [ ! -d "Hanzo-DiffuEraser" ]; then \
 			git clone git@github.com:hanzoai/Hanzo-DiffuEraser.git && \
 			echo "$(GREEN)✓ Hanzo-DiffuEraser installed$(NC)"; \
 		fi
-	@cd $(COMFYUI_DIR)/custom_nodes && \
+	@cd $(STUDIO_DIR)/custom_nodes && \
 		if [ ! -d "Hanzo-VideoHelper" ]; then \
 			git clone git@github.com:hanzoai/Hanzo-VideoHelper.git && \
 			cd Hanzo-VideoHelper && $(PIP) install -r requirements.txt && \
 			echo "$(GREEN)✓ Hanzo-VideoHelper installed$(NC)"; \
 		fi
-	@cd $(COMFYUI_DIR)/custom_nodes && \
+	@cd $(STUDIO_DIR)/custom_nodes && \
 		if [ ! -d "Hanzo-EasyUse" ]; then \
 			git clone git@github.com:hanzoai/Hanzo-EasyUse.git && \
 			echo "$(GREEN)✓ Hanzo-EasyUse installed$(NC)"; \
 		fi
-	@cd $(COMFYUI_DIR)/custom_nodes && \
+	@cd $(STUDIO_DIR)/custom_nodes && \
 		if [ ! -d "Hanzo-KJNodes" ]; then \
 			git clone git@github.com:hanzoai/Hanzo-KJNodes.git && \
 			cd Hanzo-KJNodes && $(PIP) install -r requirements.txt && \
 			echo "$(GREEN)✓ Hanzo-KJNodes installed$(NC)"; \
 		fi
-	@cd $(COMFYUI_DIR)/custom_nodes && \
+	@cd $(STUDIO_DIR)/custom_nodes && \
 		if [ ! -d "Hanzo-LayerStyle" ]; then \
 			git clone git@github.com:hanzoai/Hanzo-LayerStyle.git && \
 			echo "$(GREEN)✓ Hanzo-LayerStyle installed$(NC)"; \
@@ -75,7 +75,7 @@ install-nodes: ## Install required custom nodes
 
 install-sam2: ## Install SAM2 (optional advanced segmentation)
 	@echo "$(YELLOW)Installing SAM2...$(NC)"
-	@cd $(COMFYUI_DIR)/custom_nodes && \
+	@cd $(STUDIO_DIR)/custom_nodes && \
 		if [ ! -d "ComfyUI-SAM2" ]; then \
 			git clone git@github.com:cubiq/ComfyUI-SAM2.git && \
 			cd ComfyUI-SAM2 && $(PIP) install -r requirements.txt && \
@@ -86,7 +86,7 @@ install-sam2: ## Install SAM2 (optional advanced segmentation)
 
 install-mlx: ## Install MLX support for Apple Silicon acceleration
 	@echo "$(YELLOW)Installing Hanzo-MLX for Apple Silicon...$(NC)"
-	@cd $(COMFYUI_DIR)/custom_nodes && \
+	@cd $(STUDIO_DIR)/custom_nodes && \
 		if [ ! -d "Hanzo-MLX" ]; then \
 			git clone git@github.com:hanzoai/Hanzo-MLX.git && \
 			cd Hanzo-MLX && $(PYTHON) -m pip install --break-system-packages -r requirements.txt && \
@@ -99,56 +99,56 @@ install-mlx: ## Install MLX support for Apple Silicon acceleration
 
 download-models: ## Download required models
 	@echo "$(YELLOW)Downloading models...$(NC)"
-	@mkdir -p $(COMFYUI_DIR)/models/sam2
-	@if [ ! -f "$(COMFYUI_DIR)/models/sam2/sam2_hiera_large.pt" ]; then \
+	@mkdir -p $(STUDIO_DIR)/models/sam2
+	@if [ ! -f "$(STUDIO_DIR)/models/sam2/sam2_hiera_large.pt" ]; then \
 		echo "$(YELLOW)Downloading SAM2 Large model...$(NC)"; \
-		wget -O $(COMFYUI_DIR)/models/sam2/sam2_hiera_large.pt $(SAM2_LARGE_URL); \
+		wget -O $(STUDIO_DIR)/models/sam2/sam2_hiera_large.pt $(SAM2_LARGE_URL); \
 		echo "$(GREEN)✓ SAM2 Large downloaded$(NC)"; \
 	else \
 		echo "$(YELLOW)SAM2 Large already downloaded$(NC)"; \
 	fi
-	@if [ ! -f "$(COMFYUI_DIR)/models/sam2/sam2_hiera_base_plus.pt" ]; then \
+	@if [ ! -f "$(STUDIO_DIR)/models/sam2/sam2_hiera_base_plus.pt" ]; then \
 		echo "$(YELLOW)Downloading SAM2 Base Plus model...$(NC)"; \
-		wget -O $(COMFYUI_DIR)/models/sam2/sam2_hiera_base_plus.pt $(SAM2_BASE_URL); \
+		wget -O $(STUDIO_DIR)/models/sam2/sam2_hiera_base_plus.pt $(SAM2_BASE_URL); \
 		echo "$(GREEN)✓ SAM2 Base Plus downloaded$(NC)"; \
 	else \
 		echo "$(YELLOW)SAM2 Base Plus already downloaded$(NC)"; \
 	fi
 	@echo "$(GREEN)✓ Models downloaded$(NC)"
 	@echo "$(YELLOW)Note: You need to manually download these models:$(NC)"
-	@echo "  - realisticVisionV51_v51VAE.safetensors → $(COMFYUI_DIR)/models/checkpoints/"
-	@echo "  - pcm_sd15_smallcfg_2step_converted.safetensors → $(COMFYUI_DIR)/models/diffusers/"
+	@echo "  - realisticVisionV51_v51VAE.safetensors → $(STUDIO_DIR)/models/checkpoints/"
+	@echo "  - pcm_sd15_smallcfg_2step_converted.safetensors → $(STUDIO_DIR)/models/diffusers/"
 
-install-workflow: ## Copy workflow to ComfyUI
+install-workflow: ## Copy workflow to Studio
 	@echo "$(YELLOW)Installing workflow...$(NC)"
-	@mkdir -p $(COMFYUI_DIR)/workflows
-	@cp inpainting-workflow.json $(COMFYUI_DIR)/workflows/
-	@echo "$(GREEN)✓ Workflow installed to $(COMFYUI_DIR)/workflows/$(NC)"
+	@mkdir -p $(STUDIO_DIR)/workflows
+	@cp inpainting-workflow.json $(STUDIO_DIR)/workflows/
+	@echo "$(GREEN)✓ Workflow installed to $(STUDIO_DIR)/workflows/$(NC)"
 
-run: ## Run ComfyUI server
-	@echo "$(BLUE)Starting ComfyUI on $(HOST):$(PORT)...$(NC)"
-	@cd $(COMFYUI_DIR) && $(PYTHON) main.py --listen $(HOST) --port $(PORT)
+run: ## Run Hanzo Studio server
+	@echo "$(BLUE)Starting Hanzo Studio on $(HOST):$(PORT)...$(NC)"
+	@cd $(STUDIO_DIR) && $(PYTHON) main.py --listen $(HOST) --port $(PORT)
 
-run-cpu: ## Run ComfyUI in CPU mode (slower)
-	@echo "$(BLUE)Starting ComfyUI in CPU mode...$(NC)"
-	@cd $(COMFYUI_DIR) && $(PYTHON) main.py --listen $(HOST) --port $(PORT) --cpu
+run-cpu: ## Run Hanzo Studio in CPU mode (slower)
+	@echo "$(BLUE)Starting Hanzo Studio in CPU mode...$(NC)"
+	@cd $(STUDIO_DIR) && $(PYTHON) main.py --listen $(HOST) --port $(PORT) --cpu
 
-run-lowvram: ## Run ComfyUI with low VRAM optimizations
-	@echo "$(BLUE)Starting ComfyUI with low VRAM mode...$(NC)"
-	@cd $(COMFYUI_DIR) && $(PYTHON) main.py --listen $(HOST) --port $(PORT) --lowvram
+run-lowvram: ## Run Hanzo Studio with low VRAM optimizations
+	@echo "$(BLUE)Starting Hanzo Studio with low VRAM mode...$(NC)"
+	@cd $(STUDIO_DIR) && $(PYTHON) main.py --listen $(HOST) --port $(PORT) --lowvram
 
-run-mlx: ## Run ComfyUI with MLX acceleration (Apple Silicon only)
-	@echo "$(BLUE)Starting ComfyUI with MLX acceleration for Apple Silicon...$(NC)"
+run-mlx: ## Run Hanzo Studio with MLX acceleration (Apple Silicon only)
+	@echo "$(BLUE)Starting Hanzo Studio with MLX acceleration for Apple Silicon...$(NC)"
 	@echo "$(YELLOW)MLX provides up to 70% faster model loading & 35% faster inference$(NC)"
-	@cd $(COMFYUI_DIR) && $(PYTHON) main.py --listen $(HOST) --port $(PORT)
+	@cd $(STUDIO_DIR) && $(PYTHON) main.py --listen $(HOST) --port $(PORT)
 
 dev: run ## Alias for run
 
-update: ## Update ComfyUI and custom nodes
-	@echo "$(YELLOW)Updating ComfyUI...$(NC)"
-	@cd $(COMFYUI_DIR) && git pull
+update: ## Update Studio and custom nodes
+	@echo "$(YELLOW)Updating Studio...$(NC)"
+	@cd $(STUDIO_DIR) && git pull
 	@echo "$(YELLOW)Updating custom nodes...$(NC)"
-	@cd $(COMFYUI_DIR)/custom_nodes && \
+	@cd $(STUDIO_DIR)/custom_nodes && \
 		for dir in */; do \
 			if [ -d "$$dir/.git" ]; then \
 				echo "Updating $$dir..."; \
@@ -167,11 +167,11 @@ clean: ## Remove generated files and caches
 
 clean-output: ## Remove output videos
 	@echo "$(YELLOW)Cleaning output directory...$(NC)"
-	@rm -rf $(COMFYUI_DIR)/output/*
+	@rm -rf $(STUDIO_DIR)/output/*
 	@echo "$(GREEN)✓ Output cleaned$(NC)"
 
 test: ## Run test suite
-	@echo "$(YELLOW)Running Hanzo Painter tests...$(NC)"
+	@echo "$(YELLOW)Running Hanzo Studio tests...$(NC)"
 	@$(PYTHON) -m pytest -v
 	@echo "$(GREEN)✓ Tests complete$(NC)"
 
@@ -190,44 +190,44 @@ test-coverage: ## Run tests with coverage report
 	@$(PYTHON) -m pytest --cov=. --cov-report=html --cov-report=term
 	@echo "$(GREEN)✓ Coverage report generated in htmlcov/$(NC)"
 
-test-comfyui: ## Test ComfyUI installation
-	@echo "$(YELLOW)Testing ComfyUI installation...$(NC)"
-	@cd $(COMFYUI_DIR) && $(PYTHON) -c "import torch; print(f'PyTorch: {torch.__version__}'); print(f'CUDA available: {torch.cuda.is_available()}'); print(f'CUDA version: {torch.version.cuda if torch.cuda.is_available() else \"N/A\"}')"
-	@echo "$(GREEN)✓ ComfyUI test complete$(NC)"
+test-studio: ## Test Studio installation
+	@echo "$(YELLOW)Testing Studio installation...$(NC)"
+	@cd $(STUDIO_DIR) && $(PYTHON) -c "import torch; print(f'PyTorch: {torch.__version__}'); print(f'CUDA available: {torch.cuda.is_available()}'); print(f'CUDA version: {torch.version.cuda if torch.cuda.is_available() else \"N/A\"}')"
+	@echo "$(GREEN)✓ Studio test complete$(NC)"
 
 info: ## Show installation info
-	@echo "$(BLUE)Hanzo Painter - Installation Info$(NC)"
-	@echo "ComfyUI Directory: $(COMFYUI_DIR)"
+	@echo "$(BLUE)Hanzo Studio - Installation Info$(NC)"
+	@echo "Studio Directory: $(STUDIO_DIR)"
 	@echo "Python: $$($(PYTHON) --version)"
 	@echo "Port: $(PORT)"
 	@echo "Host: $(HOST)"
-	@if [ -d "$(COMFYUI_DIR)" ]; then \
-		echo "$(GREEN)✓ ComfyUI installed$(NC)"; \
+	@if [ -d "$(STUDIO_DIR)" ]; then \
+		echo "$(GREEN)✓ Studio installed$(NC)"; \
 	else \
-		echo "$(YELLOW)✗ ComfyUI not installed$(NC)"; \
+		echo "$(YELLOW)✗ Studio not installed$(NC)"; \
 	fi
 
-uninstall: ## Remove ComfyUI installation
-	@echo "$(YELLOW)This will remove $(COMFYUI_DIR). Are you sure? [y/N]$(NC)" && read ans && [ $${ans:-N} = y ]
-	@rm -rf $(COMFYUI_DIR)
-	@echo "$(GREEN)✓ ComfyUI uninstalled$(NC)"
+uninstall: ## Remove Studio installation
+	@echo "$(YELLOW)This will remove $(STUDIO_DIR). Are you sure? [y/N]$(NC)" && read ans && [ $${ans:-N} = y ]
+	@rm -rf $(STUDIO_DIR)
+	@echo "$(GREEN)✓ Studio uninstalled$(NC)"
 
 models-info: ## Show downloaded models info
 	@echo "$(BLUE)Downloaded Models:$(NC)"
 	@echo ""
 	@echo "$(YELLOW)SAM2 Models:$(NC)"
-	@ls -lh $(COMFYUI_DIR)/models/sam2/ 2>/dev/null || echo "  No SAM2 models found"
+	@ls -lh $(STUDIO_DIR)/models/sam2/ 2>/dev/null || echo "  No SAM2 models found"
 	@echo ""
 	@echo "$(YELLOW)Checkpoints:$(NC)"
-	@ls -lh $(COMFYUI_DIR)/models/checkpoints/*.safetensors 2>/dev/null || echo "  No checkpoints found"
+	@ls -lh $(STUDIO_DIR)/models/checkpoints/*.safetensors 2>/dev/null || echo "  No checkpoints found"
 	@echo ""
 	@echo "$(YELLOW)Diffusers:$(NC)"
-	@ls -lh $(COMFYUI_DIR)/models/diffusers/*.safetensors 2>/dev/null || echo "  No diffusers found"
+	@ls -lh $(STUDIO_DIR)/models/diffusers/*.safetensors 2>/dev/null || echo "  No diffusers found"
 
 # Quick start aliases
 all: setup install-workflow download-models ## Complete installation (setup + workflow + models)
 
 start: run ## Start server (alias)
 
-stop: ## Stop ComfyUI server
-	@pkill -f "main.py.*$(PORT)" || echo "$(YELLOW)No running ComfyUI server found$(NC)"
+stop: ## Stop Studio server
+	@pkill -f "main.py.*$(PORT)" || echo "$(YELLOW)No running Studio server found$(NC)"

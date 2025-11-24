@@ -1,6 +1,6 @@
-# Hanzo Painter Tests
+# Hanzo Studio Tests
 
-Comprehensive test suite for the Hanzo Painter project.
+Comprehensive test suite for the Hanzo Studio project.
 
 ## Test Structure
 

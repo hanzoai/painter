@@ -1,6 +1,6 @@
-# Hanzo Painter - Quick Start Guide
+# Hanzo Studio - Quick Start Guide
 
-Get Hanzo Painter (AI-powered video inpainting) running in 5 minutes.
+Get Hanzo Studio (AI-powered video inpainting) running in 5 minutes.
 
 **What it does**: Intelligently removes and reconstructs content in videos - watermarks, objects, blemishes, or any unwanted elements.
 
@@ -15,10 +15,10 @@ make all
 ```
 
 This will:
-- ✓ Install ComfyUI
+- ✓ Install Hanzo Studio
 - ✓ Install all Hanzo custom nodes (Hanzo-DiffuEraser, Hanzo-VideoHelper, etc.)
 - ✓ Download SAM2 models
-- ✓ Copy workflow to ComfyUI
+- ✓ Copy workflow to Hanzo Studio
 
 ## 2. Download Required Models
 
@@ -27,20 +27,20 @@ You need to manually download these two models:
 ### Model 1: Base Model
 - **Name**: `realisticVisionV51_v51VAE.safetensors`
 - **Source**: [HuggingFace](https://huggingface.co/SG161222/Realistic_Vision_V5.1_noVAE)
-- **Destination**: `ComfyUI/models/checkpoints/`
+- **Destination**: `Hanzo Studio/models/checkpoints/`
 
 ### Model 2: DiffuEraser Model
 - **Name**: `pcm_sd15_smallcfg_2step_converted.safetensors`
 - **Source**: [HuggingFace](https://huggingface.co/wangfuyun/PCM)
-- **Destination**: `ComfyUI/models/diffusers/`
+- **Destination**: `Hanzo Studio/models/diffusers/`
 
 ```bash
 # After downloading, place them:
-mv ~/Downloads/realisticVisionV51_v51VAE.safetensors ComfyUI/models/checkpoints/
-mv ~/Downloads/pcm_sd15_smallcfg_2step_converted.safetensors ComfyUI/models/diffusers/
+mv ~/Downloads/realisticVisionV51_v51VAE.safetensors Hanzo Studio/models/checkpoints/
+mv ~/Downloads/pcm_sd15_smallcfg_2step_converted.safetensors Hanzo Studio/models/diffusers/
 ```
 
-## 3. Start ComfyUI
+## 3. Start Hanzo Studio
 
 ```bash
 make run
@@ -52,10 +52,10 @@ Access at: **http://localhost:8188**
 
 1. **Place video in input folder**:
    ```bash
-   cp your_video.mp4 ComfyUI/input/
+   cp your_video.mp4 Hanzo Studio/input/
    ```
 
-2. **Open ComfyUI**: http://localhost:8188
+2. **Open Hanzo Studio**: http://localhost:8188
 
 3. **Load workflow**:
    - Click "Load" button
@@ -68,7 +68,7 @@ Access at: **http://localhost:8188**
 5. **Run**:
    - Click "Queue Prompt"
    - Wait for processing
-   - Output appears in `ComfyUI/output/`
+   - Output appears in `Hanzo Studio/output/`
 
 ## Common Commands
 
@@ -80,7 +80,7 @@ make run-lowvram        # Low VRAM mode (if out of memory)
 make run-cpu            # CPU-only (slow, no GPU needed)
 
 # Maintenance
-make update             # Update ComfyUI and nodes
+make update             # Update Hanzo Studio and nodes
 make clean              # Clear caches
 make info               # Show installation info
 make models-info        # Show downloaded models
@@ -135,8 +135,8 @@ Or reduce video length in the workflow settings.
 ### Models Not Found?
 ```bash
 make models-info        # Check what's downloaded
-ls -lh ComfyUI/models/checkpoints/
-ls -lh ComfyUI/models/diffusers/
+ls -lh Hanzo Studio/models/checkpoints/
+ls -lh Hanzo Studio/models/diffusers/
 ```
 
 ### Server Won't Start?
@@ -172,7 +172,7 @@ make run               # Try again
 
 - Check `make help` for all commands
 - Review the full README for detailed docs
-- Check ComfyUI logs for errors
+- Check Hanzo Studio logs for errors
 
 ---
 

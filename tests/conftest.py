@@ -43,8 +43,8 @@ def setup_script_path(project_root: Path) -> Path:
 
 @pytest.fixture
 def temp_comfyui_dir(tmp_path: Path) -> Path:
-    """Create a temporary ComfyUI directory structure."""
-    comfyui_dir = tmp_path / "ComfyUI"
+    """Create a temporary Studio directory structure."""
+    comfyui_dir = tmp_path / "Studio"
     comfyui_dir.mkdir()
 
     # Create required subdirectories

@@ -5,7 +5,7 @@ title: Usage
 
 # Usage Guide
 
-Learn how to use Hanzo Painter for content-aware inpainting.
+Learn how to use Hanzo Studio for content-aware inpainting.
 
 ## Starting the Server
 
@@ -30,11 +30,11 @@ Access the UI at [http://localhost:8188](http://localhost:8188)
 ### 1. Prepare Your Input
 
 **For Videos:**
-- Place video file in `ComfyUI/input/`
+- Place video file in `Hanzo Studio/input/`
 - Supported formats: MP4, AVI, MOV, MKV
 
 **For Images:**
-- Place image in `ComfyUI/input/`
+- Place image in `Hanzo Studio/input/`
 - Supported formats: PNG, JPG, JPEG, WebP
 
 ### 2. Load Workflow
@@ -114,7 +114,7 @@ vertical-mask.png
 
 ### 7. Retrieve Output
 
-Output files appear in `ComfyUI/output/`
+Output files appear in `Hanzo Studio/output/`
 
 Format: `output_YYYYMMDD_HHMMSS.mp4`
 
@@ -323,7 +323,7 @@ make test               # Test installation
 make update             # Update all components
 ```
 
-## Keyboard Shortcuts (ComfyUI)
+## Keyboard Shortcuts (Hanzo Studio)
 
 | Shortcut | Action |
 |----------|--------|

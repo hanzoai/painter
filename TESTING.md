@@ -1,6 +1,6 @@
-# Hanzo Painter Testing Guide
+# Hanzo Studio Testing Guide
 
-This document provides a comprehensive guide to the test suite for Hanzo Painter.
+This document provides a comprehensive guide to the test suite for Hanzo Studio.
 
 ## Quick Start
 
@@ -23,14 +23,14 @@ make test-coverage
 
 ## Test Suite Overview
 
-The Hanzo Painter test suite includes **72 tests** covering:
+The Hanzo Studio test suite includes **72 tests** covering:
 
 - ✅ Workflow JSON validation
 - ✅ Makefile target verification
 - ✅ Setup script validation
 - ✅ Dependency checking
 - ✅ Project structure verification
-- ✅ Integration with ComfyUI
+- ✅ Integration with Hanzo Studio
 - ✅ Documentation consistency
 
 ### Test Results
@@ -142,7 +142,7 @@ Validates `setup.sh`:
 - ✅ Script exists and is executable
 - ✅ Has proper shebang and error handling
 - ✅ Checks for dependencies (python, git, wget)
-- ✅ Installs ComfyUI
+- ✅ Installs Hanzo Studio
 - ✅ Installs custom nodes
 - ✅ Downloads SAM2 models
 - ✅ Creates required directories
@@ -170,9 +170,9 @@ End-to-end validation:
 - ✅ Documentation files present
 - ✅ Workflow integrates with project
 - ✅ Makefile and setup.sh aligned
-- ✅ ComfyUI directory structure valid
+- ✅ Hanzo Studio directory structure valid
 - ✅ Custom nodes installed
-- ✅ Workflow copied to ComfyUI
+- ✅ Workflow copied to Hanzo Studio
 - ✅ Documentation consistent
 
 ## Continuous Integration
@@ -258,10 +258,10 @@ From `tests/conftest.py`:
 pip install -r tests/requirements.txt
 ```
 
-**Tests skip due to missing ComfyUI:**
+**Tests skip due to missing Hanzo Studio:**
 ```bash
-# Some integration tests require ComfyUI
-make setup  # Install ComfyUI
+# Some integration tests require Hanzo Studio
+make setup  # Install Hanzo Studio
 ```
 
 **setup.sh not executable:**
@@ -308,7 +308,7 @@ Current coverage focuses on:
 
 Future coverage plans:
 
-- [ ] Runtime behavior tests (requires ComfyUI running)
+- [ ] Runtime behavior tests (requires Hanzo Studio running)
 - [ ] Model loading tests
 - [ ] Video processing tests
 - [ ] Error handling scenarios

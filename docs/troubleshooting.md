@@ -5,7 +5,7 @@ title: Troubleshooting
 
 # Troubleshooting Guide
 
-Common issues and solutions for Hanzo Painter.
+Common issues and solutions for Hanzo Studio.
 
 ## Installation Issues
 
@@ -120,16 +120,16 @@ make models-info
 
 # Download missing models manually
 # Place in correct directories:
-# - ComfyUI/models/checkpoints/
-# - ComfyUI/models/diffusers/
-# - ComfyUI/models/sam2/
+# - Hanzo Studio/models/checkpoints/
+# - Hanzo Studio/models/diffusers/
+# - Hanzo Studio/models/sam2/
 ```
 
 **Verify paths:**
 ```bash
-ls -lh ComfyUI/models/checkpoints/
-ls -lh ComfyUI/models/diffusers/
-ls -lh ComfyUI/models/sam2/
+ls -lh Hanzo Studio/models/checkpoints/
+ls -lh Hanzo Studio/models/diffusers/
+ls -lh Hanzo Studio/models/sam2/
 ```
 
 ### Port Already in Use
@@ -149,7 +149,7 @@ lsof -i :8188
 kill -9 <PID>
 
 # Or use different port
-cd ComfyUI && python main.py --port 8189
+cd Hanzo Studio && python main.py --port 8189
 ```
 
 ### Module Not Found
@@ -163,7 +163,7 @@ ModuleNotFoundError: No module named 'torch'
 
 ```bash
 # Reinstall dependencies
-cd ComfyUI
+cd Hanzo Studio
 pip install -r requirements.txt --force-reinstall
 
 # Verify installation
@@ -352,7 +352,7 @@ Error loading workflow
 **1. Verify File Path:**
 ```bash
 # Check workflow exists
-ls -l ComfyUI/workflows/inpainting-workflow.json
+ls -l Hanzo Studio/workflows/inpainting-workflow.json
 ```
 
 **2. Validate JSON:**
@@ -378,7 +378,7 @@ Unknown node type: DiffuEraser
 
 **1. Verify Node Installation:**
 ```bash
-ls -l ComfyUI/custom_nodes/
+ls -l Hanzo Studio/custom_nodes/
 ```
 
 **2. Reinstall Nodes:**
@@ -408,7 +408,7 @@ Node connection failed
 
 **2. Reload Workflow:**
 - Save current state
-- Restart ComfyUI
+- Restart Hanzo Studio
 - Reload workflow
 
 **3. Clear Cache:**
@@ -506,7 +506,7 @@ make models-info
 make test
 
 # Check logs
-tail -n 100 ComfyUI/comfyui.log
+tail -n 100 Hanzo Studio/comfyui.log
 ```
 
 ### Report Issues

@@ -25,7 +25,7 @@ class TestWorkflowStructure:
 
     def test_workflow_has_required_nodes(self, workflow_json: Dict[str, Any]):
         """Test that workflow contains required node types."""
-        # ComfyUI workflows have nodes in a 'nodes' array
+        # Studio workflows have nodes in a 'nodes' array
         nodes = workflow_json.get("nodes", [])
 
         # Check that we have nodes
@@ -38,7 +38,7 @@ class TestWorkflowStructure:
                 node_types.add(node_data["type"])
 
         # Check for at least some nodes (workflow may vary)
-        assert len(node_types) > 0, "Workflow should contain ComfyUI nodes"
+        assert len(node_types) > 0, "Workflow should contain Studio nodes"
 
     def test_workflow_nodes_have_inputs(self, workflow_json: Dict[str, Any]):
         """Test that nodes have proper input structure."""
@@ -75,7 +75,7 @@ class TestWorkflowStructure:
             if isinstance(inputs, list):
                 for input_obj in inputs:
                     if isinstance(input_obj, dict) and "link" in input_obj:
-                        # Link references are validated by ComfyUI itself
+                        # Link references are validated by Studio itself
                         pass
 
 
