@@ -180,7 +180,8 @@ install-workflow: ## Copy workflow to Studio
 	@echo "$(GREEN)✓ Workflow installed to $(STUDIO_DIR)/workflows/$(NC)"
 
 run: ## Run Hanzo Studio server
-	@echo "$(BLUE)Starting Hanzo Studio on $(HOST):$(PORT)...$(NC)"
+	@echo "$(BLUE)Starting Hanzo Studio...$(NC)"
+	@echo "$(GREEN)🌐 Access at: http://localhost:$(PORT)$(NC)"
 	@if [ ! -f "$(PYTHON)" ]; then \
 		echo "$(RED)Error: Python not found at $(PYTHON)$(NC)"; \
 		echo "$(YELLOW)Run 'make setup-venv' first$(NC)"; \
@@ -190,15 +191,18 @@ run: ## Run Hanzo Studio server
 
 run-cpu: ## Run Hanzo Studio in CPU mode (slower)
 	@echo "$(BLUE)Starting Hanzo Studio in CPU mode...$(NC)"
+	@echo "$(GREEN)🌐 Access at: http://localhost:$(PORT)$(NC)"
 	@cd $(STUDIO_DIR) && ../$(PYTHON) main.py --listen $(HOST) --port $(PORT) --cpu
 
 run-lowvram: ## Run Hanzo Studio with low VRAM optimizations
 	@echo "$(BLUE)Starting Hanzo Studio with low VRAM mode...$(NC)"
+	@echo "$(GREEN)🌐 Access at: http://localhost:$(PORT)$(NC)"
 	@cd $(STUDIO_DIR) && ../$(PYTHON) main.py --listen $(HOST) --port $(PORT) --lowvram
 
 run-mlx: ## Run Hanzo Studio with MLX acceleration (Apple Silicon only)
 	@echo "$(BLUE)Starting Hanzo Studio with MLX acceleration for Apple Silicon...$(NC)"
 	@echo "$(YELLOW)MLX provides up to 70% faster model loading & 35% faster inference$(NC)"
+	@echo "$(GREEN)🌐 Access at: http://localhost:$(PORT)$(NC)"
 	@cd $(STUDIO_DIR) && ../$(PYTHON) main.py --listen $(HOST) --port $(PORT)
 
 dev: run ## Alias for run
