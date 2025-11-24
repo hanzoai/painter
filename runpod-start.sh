@@ -38,29 +38,37 @@ if [ ! -d "Studio" ]; then
     cd Studio
 
     # Install requirements
-    if command -v pip3 &> /dev/null; then
+    if command -v python3 &> /dev/null; then
         echo "  Installing dependencies..."
 
         # Ensure critical dependencies are installed
-        pip3 install pyyaml pillow 2>/dev/null || echo "⚠ Could not install base dependencies"
+        python3 -m pip install --break-system-packages pyyaml pillow 2>/dev/null || \
+            python3 -m pip install pyyaml pillow 2>/dev/null || \
+            echo "⚠ Could not install base dependencies"
 
         # Install requirements, filtering out SAM2 (installed via custom nodes)
         grep -v "segment-anything" requirements.txt > /tmp/requirements-filtered.txt 2>/dev/null || cp requirements.txt /tmp/requirements-filtered.txt
-        pip3 install -r /tmp/requirements-filtered.txt || echo "⚠ Some requirements may have failed"
+        python3 -m pip install --break-system-packages -r /tmp/requirements-filtered.txt 2>/dev/null || \
+            python3 -m pip install -r /tmp/requirements-filtered.txt 2>/dev/null || \
+            echo "⚠ Some requirements may have failed"
 
         # Install Studio in editable mode
-        pip3 install -e . 2>/dev/null || echo "⚠ Could not install Studio in editable mode (continuing anyway)"
+        python3 -m pip install --break-system-packages -e . 2>/dev/null || \
+            python3 -m pip install -e . 2>/dev/null || \
+            echo "⚠ Could not install Studio in editable mode (continuing anyway)"
         rm -f /tmp/requirements-filtered.txt
     else
-        echo "⚠ pip3 not found, skipping requirements install"
+        echo "⚠ python3 not found, skipping requirements install"
     fi
 else
     echo "✓ Studio directory exists"
     cd Studio
 
     # Ensure critical dependencies are installed
-    if command -v pip3 &> /dev/null; then
-        pip3 install pyyaml pillow 2>/dev/null || echo "⚠ Could not install base dependencies"
+    if command -v python3 &> /dev/null; then
+        python3 -m pip install --break-system-packages pyyaml pillow 2>/dev/null || \
+            python3 -m pip install pyyaml pillow 2>/dev/null || \
+            echo "⚠ Could not install base dependencies"
     fi
 
     # Try to update
