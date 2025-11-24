@@ -231,3 +231,13 @@ start: run ## Start server (alias)
 
 stop: ## Stop Studio server
 	@pkill -f "main.py.*$(PORT)" || echo "$(YELLOW)No running Studio server found$(NC)"
+
+runpod: ## Quick start for RunPod deployment
+	@echo "$(BLUE)🚀 Starting Hanzo Studio (RunPod mode)$(NC)"
+	@bash runpod-start.sh
+
+docker-build: ## Build Docker image for RunPod
+	@echo "$(BLUE)🐳 Building Docker image...$(NC)"
+	@docker build -t hanzo-studio:latest .
+	@echo "$(GREEN)✓ Build complete$(NC)"
+	@echo "Run with: docker run --gpus all -p 8188:8188 hanzo-studio:latest"
