@@ -5,6 +5,28 @@ set -e
 
 echo "🎨 Starting Hanzo Studio..."
 
+# Detect best Python version (prefer 3.11, avoid 3.14)
+if command -v python3.11 &> /dev/null; then
+    PYTHON=python3.11
+    echo "✓ Using Python 3.11"
+elif command -v python3.12 &> /dev/null; then
+    PYTHON=python3.12
+    echo "✓ Using Python 3.12"
+elif command -v python3.10 &> /dev/null; then
+    PYTHON=python3.10
+    echo "✓ Using Python 3.10"
+elif command -v python3 &> /dev/null; then
+    PYTHON=python3
+    PY_VERSION=$($PYTHON --version 2>&1 | grep -oE '[0-9]+\.[0-9]+' | head -1)
+    if [[ "$PY_VERSION" == "3.14" ]]; then
+        echo "⚠️  Warning: Python 3.14 detected - may have compatibility issues"
+        echo "  Recommend: brew install python@3.11 && use python3.11"
+    fi
+else
+    echo "❌ Python 3 not found"
+    exit 1
+fi
+
 # Detect workspace directory
 if [ -n "$RUNPOD_POD_ID" ]; then
     # Running on RunPod
@@ -38,38 +60,32 @@ if [ ! -d "Studio" ]; then
     cd Studio
 
     # Install requirements
-    if command -v python3 &> /dev/null; then
-        echo "  Installing dependencies..."
+    echo "  Installing dependencies..."
 
-        # Ensure critical dependencies are installed
-        python3 -m pip install --break-system-packages pyyaml pillow 2>/dev/null || \
-            python3 -m pip install pyyaml pillow 2>/dev/null || \
-            echo "⚠ Could not install base dependencies"
+    # Ensure critical dependencies are installed
+    $PYTHON -m pip install --break-system-packages pyyaml pillow 2>/dev/null || \
+        $PYTHON -m pip install pyyaml pillow 2>/dev/null || \
+        echo "⚠ Could not install base dependencies"
 
-        # Install requirements, filtering out SAM2 (installed via custom nodes)
-        grep -v "segment-anything" requirements.txt > /tmp/requirements-filtered.txt 2>/dev/null || cp requirements.txt /tmp/requirements-filtered.txt
-        python3 -m pip install --break-system-packages -r /tmp/requirements-filtered.txt 2>/dev/null || \
-            python3 -m pip install -r /tmp/requirements-filtered.txt 2>/dev/null || \
-            echo "⚠ Some requirements may have failed"
+    # Install requirements, filtering out SAM2 (installed via custom nodes)
+    grep -v "segment-anything" requirements.txt > /tmp/requirements-filtered.txt 2>/dev/null || cp requirements.txt /tmp/requirements-filtered.txt
+    $PYTHON -m pip install --break-system-packages -r /tmp/requirements-filtered.txt 2>/dev/null || \
+        $PYTHON -m pip install -r /tmp/requirements-filtered.txt 2>/dev/null || \
+        echo "⚠ Some requirements may have failed"
 
-        # Install Studio in editable mode
-        python3 -m pip install --break-system-packages -e . 2>/dev/null || \
-            python3 -m pip install -e . 2>/dev/null || \
-            echo "⚠ Could not install Studio in editable mode (continuing anyway)"
-        rm -f /tmp/requirements-filtered.txt
-    else
-        echo "⚠ python3 not found, skipping requirements install"
-    fi
+    # Install Studio in editable mode
+    $PYTHON -m pip install --break-system-packages -e . 2>/dev/null || \
+        $PYTHON -m pip install -e . 2>/dev/null || \
+        echo "⚠ Could not install Studio in editable mode (continuing anyway)"
+    rm -f /tmp/requirements-filtered.txt
 else
     echo "✓ Studio directory exists"
     cd Studio
 
     # Ensure critical dependencies are installed
-    if command -v python3 &> /dev/null; then
-        python3 -m pip install --break-system-packages pyyaml pillow 2>/dev/null || \
-            python3 -m pip install pyyaml pillow 2>/dev/null || \
-            echo "⚠ Could not install base dependencies"
-    fi
+    $PYTHON -m pip install --break-system-packages pyyaml pillow 2>/dev/null || \
+        $PYTHON -m pip install pyyaml pillow 2>/dev/null || \
+        echo "⚠ Could not install base dependencies"
 
     # Try to update
     if command -v git &> /dev/null; then
@@ -141,4 +157,4 @@ echo ""
 
 # Start Studio
 echo "🚀 Starting server..."
-python3 main.py --listen 0.0.0.0 --port 8188
+$PYTHON main.py --listen 0.0.0.0 --port 8188
