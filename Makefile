@@ -193,7 +193,7 @@ run: ## Run Hanzo Studio server
 		echo "$(YELLOW)Run 'make setup-venv' first$(NC)"; \
 		exit 1; \
 	fi
-	@PAINTER_DIR=$$(pwd) && cd $(STUDIO_DIR) && $$PAINTER_DIR/$(PYTHON) main.py --listen $(HOST) --port $(PORT)
+	@PAINTER_DIR=$$(pwd) && cd $(STUDIO_DIR) && PYTHONPATH=$(STUDIO_DIR):$$PYTHONPATH $$PAINTER_DIR/$(PYTHON) main.py --listen $(HOST) --port $(PORT)
 
 run-cpu: ## Run Hanzo Studio in CPU mode (slower)
 	@echo "$(BLUE)Starting Hanzo Studio in CPU mode...$(NC)"
