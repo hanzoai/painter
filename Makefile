@@ -69,14 +69,10 @@ venv-deps: ## Install Studio dependencies in virtual environment
 	@cd $(STUDIO_DIR) && \
 		source ../$(VENV)/bin/activate && \
 		$(UV) pip install pyyaml pillow typing_extensions && \
-		grep -v "segment-anything" requirements.txt | grep -v "hanzo-studio-frontend" > /tmp/requirements-filtered.txt && \
+		grep -vE "(segment-anything|hanzo-studio-frontend|studioui-workflow-templates|studioui-embedded-docs)" requirements.txt > /tmp/requirements-filtered.txt && \
 		$(UV) pip install -r /tmp/requirements-filtered.txt && \
 		$(UV) pip install -e . && \
 		rm -f /tmp/requirements-filtered.txt
-	@if [ -d ~/work/hanzo/studio-frontend ]; then \
-		echo "$(YELLOW)Installing hanzo-studio-frontend from local...$(NC)"; \
-		source $(VENV)/bin/activate && $(UV) pip install -e ~/work/hanzo/studio-frontend; \
-	fi
 	@bash install-nodes.sh || echo "$(YELLOW)⚠ Custom nodes installation had some issues$(NC)"
 	@echo "$(GREEN)✓ Dependencies installed$(NC)"
 
