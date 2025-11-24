@@ -23,30 +23,60 @@ Part of the [Hanzo AI](https://hanzo.ai) ecosystem.
 
 ## Quick Start
 
-### Local Setup
+### One-Command Deployment ⚡
+
+The simplest way to get started - works on **local machines**, **cloud VMs**, and **RunPod**:
 
 ```bash
-# Complete setup
-make all
-
-# Or step by step
-make setup              # Install Hanzo Studio + nodes
-make download-models    # Download SAM2 models
-make install-workflow   # Copy workflow to Hanzo Studio
-make run               # Start server on localhost:8188
-```
-
-### RunPod (Cloud GPU) - One Command! 🚀
-
-```bash
-git clone https://github.com/hanzoai/painter.git /workspace/painter && \
-cd /workspace/painter && \
+git clone https://github.com/hanzoai/painter.git && \
+cd painter && \
 bash runpod-start.sh
 ```
 
-**That's it!** Server auto-starts on port 8188. See [RUNPOD.md](RUNPOD.md) for details.
+**What it does automatically:**
+1. ✅ Detects your environment (local/cloud/RunPod)
+2. ✅ Clones Hanzo Studio from [hanzoai/studio](https://github.com/hanzoai/studio)
+3. ✅ Installs all Python dependencies (filtering segment-anything-2)
+4. ✅ Installs 5 Hanzo custom nodes with their requirements
+5. ✅ Downloads SAM2 models (if wget available)
+6. ✅ Starts server on port 8188
 
-**Cost**: ~$0.40-0.50/hour (RTX 3090/4090)
+**Local Development:**
+```bash
+# From your home directory or any location
+cd ~/projects  # or any directory
+git clone https://github.com/hanzoai/painter.git
+cd painter
+bash runpod-start.sh  # Auto-detects local environment
+
+# Access at http://localhost:8188
+```
+
+**RunPod (Cloud GPU):**
+```bash
+# From RunPod terminal - use /workspace
+git clone https://github.com/hanzoai/painter.git /workspace/painter && \
+cd /workspace/painter && \
+bash runpod-start.sh  # Auto-detects RunPod environment
+
+# Server auto-exposes on pod's proxy URL
+```
+
+**Cost**: ~$0.40-0.50/hour (RTX 3090/4090) | See [RUNPOD.md](RUNPOD.md) for details
+
+### Traditional Makefile Setup
+
+Prefer step-by-step installation with Make:
+
+```bash
+make all                # Complete setup: Studio + nodes + models
+make run                # Start server on localhost:8188
+
+# Or step by step
+make setup              # Install Hanzo Studio + custom nodes
+make download-models    # Download SAM2 models
+make install-workflow   # Copy workflow to Hanzo Studio
+```
 
 ## Manual Installation
 
@@ -79,13 +109,24 @@ Place these in `Hanzo Studio/models/`:
 
 ### Hanzo Custom Nodes (Auto-installed)
 
-- **Hanzo-DiffuEraser** - AI-powered content-aware inpainting engine
-- **Hanzo-VideoHelper** - Video I/O and processing suite
-- **Hanzo-EasyUse** - Simplified workflow utilities
-- **Hanzo-KJNodes** - Core utility nodes with JWInteger support
-- **Hanzo-LayerStyle** - Photoshop-like layer compositing
-- **Hanzo-MLX** - Native Apple Silicon acceleration (optional)
-- ComfyUI-SAM2 (optional - advanced segmentation)
+The deployment script automatically installs **5 essential custom nodes** to `Studio/custom_nodes/`:
+
+| Node | Purpose | Auto-Install | Repository |
+|------|---------|--------------|------------|
+| **Hanzo-DiffuEraser** | Content-aware video/image inpainting engine | ✅ Required | [hanzoai/Hanzo-DiffuEraser](https://github.com/hanzoai/Hanzo-DiffuEraser) |
+| **Hanzo-VideoHelper** | Video I/O, frame extraction, encoding | ✅ Required | [hanzoai/Hanzo-VideoHelper](https://github.com/hanzoai/Hanzo-VideoHelper) |
+| **Hanzo-EasyUse** | Simplified workflow utilities and helpers | ✅ Required | [hanzoai/Hanzo-EasyUse](https://github.com/hanzoai/Hanzo-EasyUse) |
+| **Hanzo-KJNodes** | Core utility nodes with JWInteger support | ✅ Required | [hanzoai/Hanzo-KJNodes](https://github.com/hanzoai/Hanzo-KJNodes) |
+| **Hanzo-LayerStyle** | Photoshop-like layer compositing effects | ✅ Required | [hanzoai/Hanzo-LayerStyle](https://github.com/hanzoai/Hanzo-LayerStyle) |
+| **Hanzo-MLX** | Native Apple Silicon (M1/M2/M3/M4) acceleration | ⚙️ Optional | Install with `make install-mlx` |
+| **ComfyUI-SAM2** | Segment Anything Model 2 for object segmentation | ⚙️ Optional | Install with `make install-sam2` |
+
+**Installation Details:**
+- Nodes are cloned from GitHub during setup
+- Each node's `requirements.txt` is automatically installed
+- If nodes already exist, they're skipped (no reinstall)
+- Works offline if nodes are pre-installed
+- See `install-nodes.sh` for implementation details
 
 ## Usage
 
@@ -155,6 +196,8 @@ make models-info        # Show downloaded models
 
 ## Architecture
 
+### Processing Pipeline
+
 ```
 Input Video → Load & Process → DiffuEraser → SAM2 (optional) → Output Video
                                     ↓
@@ -163,16 +206,132 @@ Input Video → Load & Process → DiffuEraser → SAM2 (optional) → Output Vi
                             Temporal Smoothing
 ```
 
-**Integration**: This project builds on the main [Hanzo Studio repository](https://github.com/hanzoai/studio) via symbolic link, sharing the core Python package, custom nodes, and models. The type system uses the unified `studio.studio_types` namespace.
+### Deployment Architecture
+
+**Integration with Main Studio:**
+
+This project builds on the main [Hanzo Studio repository](https://github.com/hanzoai/studio), sharing:
+- ✅ Core Python package (`hanzo-studio`)
+- ✅ Unified type system (`studio.studio_types` namespace)
+- ✅ Custom nodes architecture
+- ✅ Model management and workflows
+
+**Directory Structure:**
+```
+painter/                         # This repository
+├── runpod-start.sh             # One-command deployment script
+├── install-nodes.sh            # Automatic custom nodes installer
+├── inpainting-workflow.json    # Pre-configured workflow
+├── Dockerfile                  # RunPod-optimized container
+└── Studio/                     # Symlink to ~/work/hanzo/Studio
+
+~/work/hanzo/Studio/            # Main Studio repository
+├── main.py                     # Studio server entry point
+├── studio/                     # Core Python package
+│   ├── studio_types/          # Unified type definitions
+│   └── ...
+├── custom_nodes/              # Auto-installed custom nodes
+│   ├── Hanzo-DiffuEraser/
+│   ├── Hanzo-VideoHelper/
+│   ├── Hanzo-EasyUse/
+│   ├── Hanzo-KJNodes/
+│   └── Hanzo-LayerStyle/
+└── models/                    # Downloaded models
+    ├── sam2/
+    ├── checkpoints/
+    └── diffusers/
+```
+
+**Environment Auto-Detection:**
+
+The `runpod-start.sh` script intelligently adapts to your environment:
+
+```bash
+# Detection logic
+if [ -n "$RUNPOD_POD_ID" ]; then
+    WORKSPACE=/workspace              # RunPod environment
+elif [ -d "/workspace" ]; then
+    WORKSPACE=/workspace              # Cloud VM
+else
+    WORKSPACE="$(pwd)"                # Local development
+fi
+```
+
+This ensures the same deployment script works everywhere without modification.
 
 ## Troubleshooting
 
+### Common Issues
+
 | Issue | Solution |
 |-------|----------|
-| CUDA out of memory | Use `make run-lowvram` or reduce batch size |
-| Models not found | Check paths in `Hanzo Studio/models/` |
-| Slow processing | Reduce video length or use GPU |
-| Poor results | Increase guidance_scale or use SAM2 |
+| **Server won't start** | Check Python version (3.8-3.11 recommended, 3.14 has PIL issues) |
+| **CUDA out of memory** | Use `make run-lowvram` or reduce `video_length` parameter |
+| **Models not found** | Run `make download-models` or check `Studio/models/sam2/` |
+| **Slow processing** | Reduce `video_length`, increase `ref_stride`, or use better GPU |
+| **Poor inpainting quality** | Increase `guidance_scale` (10-20), add `num_inference_steps`, enable SAM2 |
+| **Custom nodes missing** | Run `bash install-nodes.sh` manually or check `Studio/custom_nodes/` |
+| **Port 8188 in use** | Kill existing process: `lsof -i :8188` then `kill -9 PID` |
+
+### Deployment-Specific Issues
+
+**Local Development:**
+```bash
+# Missing dependencies
+pip3 install pyyaml pillow torch torchvision torchaudio
+
+# Wrong Python version
+PYTHON=/usr/bin/python3.11 make run  # Specify Python path
+
+# Permission issues
+chmod +x runpod-start.sh install-nodes.sh
+```
+
+**RunPod:**
+```bash
+# Check environment detection
+echo $RUNPOD_POD_ID  # Should show pod ID
+ls -la /workspace     # Should exist
+
+# Manual workspace setup
+export WORKSPACE=/workspace
+cd $WORKSPACE && bash runpod-start.sh
+
+# Check GPU availability
+nvidia-smi  # Verify GPU is accessible
+```
+
+**Environment Auto-Detection:**
+
+The deployment script (`runpod-start.sh`) automatically detects your environment:
+
+1. **RunPod** - Checks for `$RUNPOD_POD_ID` environment variable
+2. **Cloud VM** - Checks if `/workspace` directory exists
+3. **Local** - Falls back to current working directory
+
+If auto-detection fails, manually set workspace:
+```bash
+export WORKSPACE=/your/preferred/path
+bash runpod-start.sh
+```
+
+### Verification Commands
+
+```bash
+# Check installation
+make info                    # Show paths and versions
+make models-info             # List downloaded models
+ls Studio/custom_nodes/      # Verify 5 Hanzo nodes installed
+
+# Test server accessibility
+curl http://localhost:8188/  # Local
+curl http://localhost:8188/system_stats  # API health check
+
+# Check logs
+tail -f Studio/comfyui.log   # Server logs
+python3 --version            # Python version
+pip3 list | grep -i torch    # PyTorch installation
+```
 
 ## Development
 
@@ -196,7 +355,40 @@ Educational and research purposes only.
 
 **Note**: This is true inpainting, not just erasing. The AI intelligently reconstructs what should be there based on context.
 
-## Hanzo Hanzo Studio Ecosystem
+## Deployment Features
+
+### Intelligent Environment Detection
+
+The deployment script provides a seamless experience across all platforms:
+
+✅ **Zero Configuration** - Same command works everywhere
+✅ **Automatic Path Detection** - Adapts to local/cloud/RunPod environments
+✅ **Dependency Filtering** - Skips problematic packages (segment-anything-2)
+✅ **Graceful Fallbacks** - Works even if tools like wget/git are missing
+✅ **Smart Caching** - Skips already-installed components for faster restarts
+✅ **Comprehensive Logging** - Clear status messages for each step
+
+### What Gets Installed
+
+When you run `bash runpod-start.sh`, the script:
+
+1. **Detects your environment** (RunPod vs cloud VM vs local machine)
+2. **Clones Hanzo Studio** from github.com/hanzoai/studio (if not present)
+3. **Installs Python dependencies** (filtering segment-anything-2 from requirements)
+4. **Installs hanzo-studio package** in editable mode for development
+5. **Clones 5 custom nodes** from github.com/hanzoai (if not present):
+   - Hanzo-DiffuEraser
+   - Hanzo-VideoHelper
+   - Hanzo-EasyUse
+   - Hanzo-KJNodes
+   - Hanzo-LayerStyle
+6. **Installs each node's requirements** (with error handling)
+7. **Downloads SAM2 models** (if wget available and models not present)
+8. **Starts the server** on port 8188 with proper host binding
+
+**Smart Skipping**: Already installed components are detected and skipped, making subsequent runs much faster.
+
+## Hanzo Studio Ecosystem
 
 Hanzo Studio uses a curated stack of Hanzo Studio custom nodes maintained as **Hanzo forks**. This approach ensures:
 
