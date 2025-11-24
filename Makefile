@@ -1,10 +1,12 @@
-.PHONY: help setup install-studio install-nodes download-models run clean test check-deps runpod docker-build
+.PHONY: help setup install-studio install-nodes download-models run clean test check-deps runpod docker-build setup-venv install-uv venv-deps
 
 # Configuration
 STUDIO_DIR ?= ./Studio
-PYTHON ?= python3
-PIP ?= pip3
-VENV ?= .venv
+PYTHON_VERSION ?= 3.11
+VENV := .venv
+PYTHON := $(VENV)/bin/python
+PIP := $(VENV)/bin/pip
+UV := uv
 PORT ?= 8188
 HOST ?= 0.0.0.0
 
@@ -19,8 +21,60 @@ YELLOW := \033[0;33m
 NC := \033[0m # No Color
 
 help: ## Show this help message
-	@echo "$(BLUE)Hanzo Studio - AI Creative Suite$(NC)"
+	@echo "$(BLUE)Hanzo Painter - AI Video Inpainting$(NC)"
+	@echo ""
+	@echo "$(YELLOW)Quick Start (using uv + venv):$(NC)"
+	@echo "  make setup-venv    # Install uv, create venv, install deps"
+	@echo "  make run          # Start server"
+	@echo ""
+	@echo "$(YELLOW)Available targets:$(NC)"
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  $(GREEN)%-20s$(NC) %s\n", $$1, $$2}'
+
+install-uv: ## Install uv package manager
+	@echo "$(YELLOW)Checking for uv...$(NC)"
+	@if ! command -v uv &> /dev/null; then \
+		echo "$(YELLOW)Installing uv...$(NC)"; \
+		curl -LsSf https://astral.sh/uv/install.sh | sh; \
+		echo "$(GREEN)✓ uv installed$(NC)"; \
+	else \
+		echo "$(GREEN)✓ uv already installed$(NC)"; \
+	fi
+
+setup-venv: install-uv ## Create virtual environment and install all dependencies (RECOMMENDED)
+	@echo "$(YELLOW)Setting up virtual environment...$(NC)"
+	@if [ ! -d "$(VENV)" ]; then \
+		echo "$(YELLOW)Installing Python $(PYTHON_VERSION)...$(NC)"; \
+		$(UV) python install $(PYTHON_VERSION); \
+		echo "$(YELLOW)Creating virtual environment...$(NC)"; \
+		$(UV) venv $(VENV) --python $(PYTHON_VERSION); \
+		echo "$(GREEN)✓ Virtual environment created$(NC)"; \
+	else \
+		echo "$(GREEN)✓ Virtual environment already exists$(NC)"; \
+	fi
+	@$(MAKE) venv-deps
+	@echo "$(GREEN)✓ Setup complete!$(NC)"
+	@echo "$(YELLOW)Activate with: source $(VENV)/bin/activate$(NC)"
+
+venv-deps: ## Install Studio dependencies in virtual environment
+	@echo "$(YELLOW)Installing dependencies in venv...$(NC)"
+	@if [ ! -d "$(VENV)" ]; then \
+		echo "$(BLUE)Run 'make setup-venv' first$(NC)"; \
+		exit 1; \
+	fi
+	@if [ ! -d "$(STUDIO_DIR)" ]; then \
+		echo "$(YELLOW)Cloning Hanzo Studio...$(NC)"; \
+		git clone https://github.com/hanzoai/studio.git $(STUDIO_DIR); \
+	fi
+	@echo "$(YELLOW)Installing Python packages...$(NC)"
+	@cd $(STUDIO_DIR) && \
+		source ../$(VENV)/bin/activate && \
+		$(UV) pip install pyyaml pillow typing_extensions && \
+		grep -v "segment-anything" requirements.txt > /tmp/requirements-filtered.txt && \
+		$(UV) pip install -r /tmp/requirements-filtered.txt && \
+		$(UV) pip install -e . && \
+		rm -f /tmp/requirements-filtered.txt
+	@bash install-nodes.sh || echo "$(YELLOW)⚠ Custom nodes installation had some issues$(NC)"
+	@echo "$(GREEN)✓ Dependencies installed$(NC)"
 
 check-deps: ## Check if required dependencies are installed
 	@echo "$(YELLOW)Checking dependencies...$(NC)"
