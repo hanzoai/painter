@@ -68,7 +68,7 @@ venv-deps: ## Install Studio dependencies in virtual environment
 	@echo "$(YELLOW)Installing Python packages...$(NC)"
 	@PAINTER_DIR=$$(pwd) && cd $(STUDIO_DIR) && \
 		$$PAINTER_DIR/$(PIP) install pyyaml pillow typing_extensions && \
-		grep -vE "(segment-anything|hanzo-studio-frontend|studioui-workflow-templates|studioui-embedded-docs)" requirements.txt > /tmp/requirements-filtered.txt && \
+		grep -vE "(segment-anything|hanzo-studio-frontend|hanzo-studio-workflow-templates|hanzo-studio-embedded-docs)" requirements.txt > /tmp/requirements-filtered.txt && \
 		$$PAINTER_DIR/$(PIP) install -r /tmp/requirements-filtered.txt && \
 		$$PAINTER_DIR/$(PIP) install -e . && \
 		rm -f /tmp/requirements-filtered.txt
