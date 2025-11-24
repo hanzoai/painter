@@ -16,9 +16,16 @@ elif [ -d "/workspace" ]; then
     WORKSPACE=/workspace
     echo "✓ Cloud environment detected"
 else
-    # Local development - use current directory
-    WORKSPACE="$(pwd)"
-    echo "✓ Local environment detected"
+    # Local development - check if we're in painter directory
+    if [ -f "runpod-start.sh" ] && [ -f "install-nodes.sh" ]; then
+        # We're already in the painter directory
+        WORKSPACE="$(pwd)"
+        echo "✓ Local environment detected (painter directory)"
+    else
+        # Use current directory
+        WORKSPACE="$(pwd)"
+        echo "✓ Local environment detected"
+    fi
 fi
 
 echo "  Workspace: $WORKSPACE"
@@ -33,6 +40,10 @@ if [ ! -d "Studio" ]; then
     # Install requirements
     if command -v pip3 &> /dev/null; then
         echo "  Installing dependencies..."
+
+        # Ensure critical dependencies are installed
+        pip3 install pyyaml pillow 2>/dev/null || echo "⚠ Could not install base dependencies"
+
         # Install requirements, filtering out SAM2 (installed via custom nodes)
         grep -v "segment-anything" requirements.txt > /tmp/requirements-filtered.txt 2>/dev/null || cp requirements.txt /tmp/requirements-filtered.txt
         pip3 install -r /tmp/requirements-filtered.txt || echo "⚠ Some requirements may have failed"
@@ -46,6 +57,11 @@ if [ ! -d "Studio" ]; then
 else
     echo "✓ Studio directory exists"
     cd Studio
+
+    # Ensure critical dependencies are installed
+    if command -v pip3 &> /dev/null; then
+        pip3 install pyyaml pillow 2>/dev/null || echo "⚠ Could not install base dependencies"
+    fi
 
     # Try to update
     if command -v git &> /dev/null; then
