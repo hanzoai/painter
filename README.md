@@ -19,6 +19,8 @@ Part of the [Hanzo AI](https://hanzo.ai) ecosystem.
 
 ## Quick Start
 
+### Local Setup
+
 ```bash
 # Complete setup
 make all
@@ -29,6 +31,18 @@ make download-models    # Download SAM2 models
 make install-workflow   # Copy workflow to Hanzo Studio
 make run               # Start server on localhost:8188
 ```
+
+### RunPod (Cloud GPU) - One Command! 🚀
+
+```bash
+git clone https://github.com/hanzoai/painter.git /workspace/painter && \
+cd /workspace/painter && \
+bash runpod-start.sh
+```
+
+**That's it!** Server auto-starts on port 8188. See [RUNPOD.md](RUNPOD.md) for details.
+
+**Cost**: ~$0.40-0.50/hour (RTX 3090/4090)
 
 ## Manual Installation
 
