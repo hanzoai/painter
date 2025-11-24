@@ -66,13 +66,19 @@ venv-deps: ## Install Studio dependencies in virtual environment
 		git clone https://github.com/hanzoai/studio.git $(STUDIO_DIR); \
 	fi
 	@echo "$(YELLOW)Installing Python packages...$(NC)"
-	@cd $(STUDIO_DIR) && \
-		source ../$(VENV)/bin/activate && \
-		$(UV) pip install pyyaml pillow typing_extensions && \
+	@PAINTER_DIR=$$(pwd) && cd $(STUDIO_DIR) && \
+		$$PAINTER_DIR/$(PIP) install pyyaml pillow typing_extensions && \
 		grep -vE "(segment-anything|hanzo-studio-frontend|studioui-workflow-templates|studioui-embedded-docs)" requirements.txt > /tmp/requirements-filtered.txt && \
-		$(UV) pip install -r /tmp/requirements-filtered.txt && \
-		$(UV) pip install -e . && \
+		$$PAINTER_DIR/$(PIP) install -r /tmp/requirements-filtered.txt && \
+		$$PAINTER_DIR/$(PIP) install -e . && \
 		rm -f /tmp/requirements-filtered.txt
+	@echo "$(YELLOW)Installing hanzo-studio-frontend from local source...$(NC)"
+	@if [ -d ~/work/hanzo/studio-frontend ]; then \
+		$(PIP) install -e ~/work/hanzo/studio-frontend/hanzo-studio_frontend_package; \
+		echo "$(GREEN)✓ hanzo-studio-frontend installed from local source$(NC)"; \
+	else \
+		echo "$(YELLOW)⚠ hanzo-studio-frontend not found at ~/work/hanzo/studio-frontend$(NC)"; \
+	fi
 	@bash install-nodes.sh || echo "$(YELLOW)⚠ Custom nodes installation had some issues$(NC)"
 	@echo "$(GREEN)✓ Dependencies installed$(NC)"
 
@@ -187,23 +193,23 @@ run: ## Run Hanzo Studio server
 		echo "$(YELLOW)Run 'make setup-venv' first$(NC)"; \
 		exit 1; \
 	fi
-	@cd $(STUDIO_DIR) && ../$(PYTHON) main.py --listen $(HOST) --port $(PORT)
+	@PAINTER_DIR=$$(pwd) && cd $(STUDIO_DIR) && $$PAINTER_DIR/$(PYTHON) main.py --listen $(HOST) --port $(PORT)
 
 run-cpu: ## Run Hanzo Studio in CPU mode (slower)
 	@echo "$(BLUE)Starting Hanzo Studio in CPU mode...$(NC)"
 	@echo "$(GREEN)🌐 Access at: http://localhost:$(PORT)$(NC)"
-	@cd $(STUDIO_DIR) && ../$(PYTHON) main.py --listen $(HOST) --port $(PORT) --cpu
+	@PAINTER_DIR=$$(pwd) && cd $(STUDIO_DIR) && $$PAINTER_DIR/$(PYTHON) main.py --listen $(HOST) --port $(PORT) --cpu
 
 run-lowvram: ## Run Hanzo Studio with low VRAM optimizations
 	@echo "$(BLUE)Starting Hanzo Studio with low VRAM mode...$(NC)"
 	@echo "$(GREEN)🌐 Access at: http://localhost:$(PORT)$(NC)"
-	@cd $(STUDIO_DIR) && ../$(PYTHON) main.py --listen $(HOST) --port $(PORT) --lowvram
+	@PAINTER_DIR=$$(pwd) && cd $(STUDIO_DIR) && $$PAINTER_DIR/$(PYTHON) main.py --listen $(HOST) --port $(PORT) --lowvram
 
 run-mlx: ## Run Hanzo Studio with MLX acceleration (Apple Silicon only)
 	@echo "$(BLUE)Starting Hanzo Studio with MLX acceleration for Apple Silicon...$(NC)"
 	@echo "$(YELLOW)MLX provides up to 70% faster model loading & 35% faster inference$(NC)"
 	@echo "$(GREEN)🌐 Access at: http://localhost:$(PORT)$(NC)"
-	@cd $(STUDIO_DIR) && ../$(PYTHON) main.py --listen $(HOST) --port $(PORT)
+	@PAINTER_DIR=$$(pwd) && cd $(STUDIO_DIR) && $$PAINTER_DIR/$(PYTHON) main.py --listen $(HOST) --port $(PORT)
 
 dev: run ## Alias for run
 
