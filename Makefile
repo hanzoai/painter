@@ -4,8 +4,9 @@
 STUDIO_DIR ?= ./Studio
 PYTHON_VERSION ?= 3.11
 VENV := .venv
-PYTHON := $(VENV)/bin/python
-PIP := $(VENV)/bin/pip
+# Use venv python if it exists, otherwise fall back to system python (for CI)
+PYTHON := $(shell if [ -f $(VENV)/bin/python ]; then echo "$(VENV)/bin/python"; else echo "python"; fi)
+PIP := $(shell if [ -f $(VENV)/bin/pip ]; then echo "$(VENV)/bin/pip"; else echo "pip"; fi)
 UV := uv
 PORT ?= 8188
 HOST ?= 0.0.0.0
@@ -84,7 +85,11 @@ venv-deps: ## Install Studio dependencies in virtual environment
 
 check-deps: ## Check if required dependencies are installed
 	@echo "$(YELLOW)Checking dependencies...$(NC)"
-	@command -v $(PYTHON) >/dev/null 2>&1 || { echo "Python 3 is required but not installed. Aborting." >&2; exit 1; }
+	@if [ -f "$(VENV)/bin/python" ]; then \
+		command -v $(PYTHON) >/dev/null 2>&1 || { echo "Python 3 is required but not installed. Aborting." >&2; exit 1; }; \
+	else \
+		command -v python3 >/dev/null 2>&1 || command -v python >/dev/null 2>&1 || { echo "Python 3 is required but not installed. Aborting." >&2; exit 1; }; \
+	fi
 	@command -v git >/dev/null 2>&1 || { echo "Git is required but not installed. Aborting." >&2; exit 1; }
 	@command -v wget >/dev/null 2>&1 || { echo "wget is required but not installed. Aborting." >&2; exit 1; }
 	@echo "$(GREEN)✓ All dependencies found$(NC)"
