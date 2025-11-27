@@ -92,8 +92,12 @@ class TestSetupIntegration:
         makefile_content = makefile_path.read_text()
         setup_content = setup_script_path.read_text()
 
-        # Both should reference Studio
-        assert "Studio" in makefile_content and "Studio" in setup_content
+        # Makefile should reference Studio
+        assert "Studio" in makefile_content, "Makefile should reference Studio"
+
+        # setup.sh should reference Studio or ComfyUI (legacy compatibility)
+        assert "Studio" in setup_content or "ComfyUI" in setup_content, \
+            "setup.sh should reference Studio or ComfyUI (legacy)"
 
         # Both should reference custom nodes
         assert "custom_nodes" in makefile_content and "custom_nodes" in setup_content
