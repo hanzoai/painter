@@ -185,7 +185,22 @@ install-workflow: ## Copy workflow to Studio
 	@cp inpainting-workflow.json $(STUDIO_DIR)/workflows/
 	@echo "$(GREEN)✓ Workflow installed to $(STUDIO_DIR)/workflows/$(NC)"
 
-run: ## Run Hanzo Studio server
+setup-frontend: ## Setup frontend files automatically
+	@FRONTEND_STATIC_DIR="$(shell pwd)/.venv/lib/python3.11/site-packages/hanzo_studio_frontend/static"; \
+	if [ ! -d "$$FRONTEND_STATIC_DIR" ] || [ ! -f "$$FRONTEND_STATIC_DIR/index.html" ]; then \
+		echo "$(YELLOW)Setting up frontend files...$(NC)"; \
+		if [ -d "$(HOME)/work/hanzo/studio-frontend/dist" ]; then \
+			mkdir -p "$$(dirname $$FRONTEND_STATIC_DIR)"; \
+			rm -rf "$$FRONTEND_STATIC_DIR"; \
+			cp -r "$(HOME)/work/hanzo/studio-frontend/dist" "$$FRONTEND_STATIC_DIR"; \
+			echo "$(GREEN)✓ Frontend files copied from ~/work/hanzo/studio-frontend/dist$(NC)"; \
+		else \
+			echo "$(YELLOW)⚠ Frontend source not found at ~/work/hanzo/studio-frontend/dist$(NC)"; \
+			echo "$(YELLOW)  UI may not load correctly$(NC)"; \
+		fi; \
+	fi
+
+run: setup-frontend ## Run Hanzo Studio server
 	@echo "$(BLUE)Starting Hanzo Studio...$(NC)"
 	@echo "$(GREEN)🌐 Access at: http://localhost:$(PORT)$(NC)"
 	@if [ ! -f "$(PYTHON)" ]; then \
