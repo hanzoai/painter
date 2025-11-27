@@ -85,3 +85,4 @@ output/
 # OS
 Thumbs.db
 .DS_Store
+painter/
