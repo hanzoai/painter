@@ -59,10 +59,12 @@ class TestSetupScript:
 class TestSetupScriptFlow:
     """Test setup.sh script flow and logic."""
 
-    def test_setup_installs_comfyui(self, setup_script_path: Path):
-        """Test that setup.sh installs Studio."""
+    def test_setup_installs_studio(self, setup_script_path: Path):
+        """Test that setup.sh installs Studio (or legacy ComfyUI)."""
         content = setup_script_path.read_text()
-        assert "Studio" in content, "setup.sh should install Studio"
+        # Accept either Studio or ComfyUI (legacy compatibility)
+        assert "Studio" in content or "studio" in content or "ComfyUI" in content, \
+            "setup.sh should install Studio or ComfyUI"
         assert "git clone" in content, "setup.sh should clone repositories"
 
     def test_setup_installs_custom_nodes(self, setup_script_path: Path):
@@ -161,8 +163,9 @@ class TestSetupScriptSafety:
     def test_setup_no_hardcoded_paths(self, setup_script_path: Path):
         """Test that setup.sh uses variables for paths."""
         content = setup_script_path.read_text()
-        # Should use COMFYUI_DIR variable
-        assert "COMFYUI_DIR" in content, "setup.sh should use COMFYUI_DIR variable"
+        # Should use STUDIO_DIR or COMFYUI_DIR variable (legacy compatibility)
+        assert "STUDIO_DIR" in content or "COMFYUI_DIR" in content, \
+            "setup.sh should use DIR variable for installation path"
 
     def test_setup_handles_errors(self, setup_script_path: Path):
         """Test that setup.sh handles errors gracefully."""

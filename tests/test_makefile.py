@@ -41,7 +41,7 @@ class TestMakefileTargets:
         "help",
         "check-deps",
         "setup",
-        "install-comfyui",
+        "install-studio",
         "install-nodes",
         "download-models",
         "install-workflow",
@@ -89,7 +89,7 @@ class TestMakefileConfiguration:
         content = makefile_path.read_text()
 
         required_vars = [
-            "COMFYUI_DIR",
+            "STUDIO_DIR",
             "PYTHON",
             "PORT",
         ]
