@@ -6,9 +6,13 @@ This test verifies that the Hanzo Studio server can:
 2. Accept a workflow for watermark removal
 3. Process a video with watermark
 4. Output a clean video without watermark
+
+These are integration tests that require a running server.
+They will be skipped if the server is not available.
 """
 
 import json
+import os
 import pytest
 from playwright.sync_api import Page, expect
 import requests
@@ -18,6 +22,23 @@ import time
 BASE_URL = "http://localhost:8188"
 
 
+def is_server_available():
+    """Check if the server is running."""
+    try:
+        response = requests.get(f"{BASE_URL}/system_stats", timeout=2)
+        return response.status_code == 200
+    except (requests.ConnectionError, requests.Timeout):
+        return False
+
+
+# Skip all tests in this module if server is not available
+pytestmark = pytest.mark.skipif(
+    not is_server_available(),
+    reason="Server not running at localhost:8188 (start with 'make run')"
+)
+
+
+@pytest.mark.integration
 def test_server_is_running():
     """Verify server is running and responding."""
     response = requests.get(f"{BASE_URL}/system_stats")
@@ -31,6 +52,7 @@ def test_server_is_running():
     print(f"✓ PyTorch version: {data['system']['pytorch_version']}")
 
 
+@pytest.mark.integration
 def test_custom_nodes_loaded():
     """Verify all custom nodes are loaded, especially DiffuEraser."""
     response = requests.get(f"{BASE_URL}/object_info")
@@ -61,6 +83,7 @@ def test_custom_nodes_loaded():
     assert len(nodes) > 0, "No nodes loaded!"
 
 
+@pytest.mark.integration
 def test_ui_loads(page: Page):
     """Test that the UI loads successfully."""
     # Navigate to the UI
@@ -69,15 +92,13 @@ def test_ui_loads(page: Page):
     # Wait for the page to load
     page.wait_for_load_state("networkidle")
 
-    # Check that we're not seeing a 404 or error page
-    # ComfyUI/Studio typically has a canvas or workflow area
-    # We'll check for common elements
-
     # Take a screenshot for debugging
-    page.screenshot(path="/tmp/hanzo-painter-ui.png")
-    print("✓ UI loaded, screenshot saved to /tmp/hanzo-painter-ui.png")
+    screenshot_path = "/tmp/hanzo-painter-ui.png"
+    page.screenshot(path=screenshot_path)
+    print(f"✓ UI loaded, screenshot saved to {screenshot_path}")
 
 
+@pytest.mark.integration
 def test_queue_status():
     """Verify the queue is accessible and empty."""
     response = requests.get(f"{BASE_URL}/queue")
@@ -87,16 +108,9 @@ def test_queue_status():
     print(f"✓ Queue status: {queue_data}")
 
 
+@pytest.mark.integration
 def test_api_workflow_submission():
-    """Test submitting a simple workflow via API.
-
-    This is a placeholder for the actual watermark removal workflow.
-    We need to:
-    1. Load a video with watermark
-    2. Apply DiffuEraser node
-    3. Save the output
-    4. Verify watermark is removed
-    """
+    """Test submitting a simple workflow via API."""
     # For now, just verify we can check the queue
     response = requests.get(f"{BASE_URL}/prompt")
 
@@ -106,6 +120,7 @@ def test_api_workflow_submission():
     print("✓ Prompt endpoint is accessible")
 
 
+@pytest.mark.integration
 @pytest.mark.skip(reason="Need actual test video with watermark")
 def test_watermark_removal_workflow():
     """
@@ -125,6 +140,12 @@ def test_watermark_removal_workflow():
 if __name__ == "__main__":
     # Run tests directly
     print("Running Hanzo Painter watermark removal tests...\n")
+
+    if not is_server_available():
+        print("❌ Server is not running at http://localhost:8188")
+        print("   Start the server with: make run")
+        print("   Then run these tests again.")
+        exit(1)
 
     # Test server
     print("1. Testing server status...")
