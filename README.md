@@ -423,7 +423,7 @@ Improvements to Hanzo custom nodes benefit the entire ecosystem:
 Hanzo Studio is part of the [Hanzo AI](https://hanzo.ai) ecosystem, providing AI infrastructure and services for developers.
 
 - **hanzo.ai** - Core AI infrastructure platform
-- **hanzo.io** - Business solutions
+- **hanzo.ai** - Business solutions
 - **hanzo.network** - Decentralized compute marketplace
 
 ---
